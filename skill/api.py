@@ -22,7 +22,10 @@ It also supports returning values in the measurement system (Metric/Imperial)
 provided, precluding us from having to do the conversions.
 
 """
-from mycroft.api import Api
+
+from neon_utils.authentication_utils import find_neon_owm_key
+from neon_utils.service_apis.open_weather_map import get_forecast
+
 from .weather import WeatherReport
 
 OPEN_WEATHER_MAP_LANGUAGES = (
@@ -77,15 +80,15 @@ OPEN_WEATHER_MAP_LANGUAGES = (
 )
 
 
-class OpenWeatherMapApi(Api):
+class OpenWeatherMapApi:
     """Use Open Weather Map's One Call API to retrieve weather information"""
 
-    def __init__(self):
-        super().__init__(path="owm")
-        self.language = "en"
+    def __init__(self, lang: str = "en", api_key: str = None):
+        self.api_key = api_key or find_neon_owm_key()
+        self.language = lang or "en"
 
     def get_weather_for_coordinates(
-        self, measurement_system: str, latitude: float, longitude: float
+        self, measurement_system: str, latitude: float, longitude: float, lang: str = None
     ) -> WeatherReport:
         """Issue an API call and map the return value into a weather report
 
@@ -93,16 +96,11 @@ class OpenWeatherMapApi(Api):
             measurement_system: Metric or Imperial measurement units
             latitude: the geologic latitude of the weather location
             longitude: the geologic longitude of the weather location
+            lang: language requested
         """
-        query_parameters = dict(
-            exclude="minutely",
-            lang=self.language,
-            lat=latitude,
-            lon=longitude,
-            units=measurement_system
-        )
-        api_request = dict(path="/onecall", query=query_parameters)
-        response = self.request(api_request)
+        lang = lang or self.language
+        kwargs = {"api_key": self.api_key, "language": lang} if self.api_key else {"language": lang}
+        response = get_forecast(latitude, longitude, measurement_system.lower(), **kwargs)
         local_weather = WeatherReport(response)
 
         return local_weather
