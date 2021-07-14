@@ -1,54 +1,50 @@
 # <img src='https://rawgithub.com/FortAwesome/Font-Awesome/master/svgs/solid/sun.svg' card_color='#FEE255' width='50' height='50' style='vertical-align:bottom'/> Weather
-Weather conditions and forecasts
-
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-
-## About 
-Get weather conditions, forecasts, expected precipitation and more!  By default, it will tell
-you about your device's configured location. You can also ask for other cities around the world. 
-
-Current conditions and weather forecasts come from [Open Weather Map](https://openweathermap.org).
-
-The temperature is shown in Celsius or Fahrenheit depending on the preferences 
-set in your [https://home.mycroft.ai](https://home.mycroft.ai) account.  You can ask 
-specifically for a unit that differs from your configuration.
-
-## Examples 
-### Current Conditions
-* "What is the weather?"
-* "What is the weather in Houston?"
-
-### Daily Forecasts
-* "What is the forecast tomorrow?"
-* "What is the forecast in London tomorrow?"
-* "What is the weather going to be like Tuesday?"
-* "What is the weather for the next three days?"
-* "What is the weather this weekend?"
   
-### Temperatures
-* "What's the temperature?"
-* "What's the temperature in Paris tomorrow in Celsius?"
-* "What's the high temperature tomorrow"
-* "Will it be cold on Tuesday"
+## Summary  
+  
+Get current weather and forecast info.
 
-### Specific Weather Conditions
-* "When will it rain next?"
-* "How windy is it?"
-* "What's the humidity?"
-* "Is it going to snow?"
-* "Is it going to snow in Baltimore?"
-* "When is the sunset?"
+## Description  
+  
+This skill provides current weather information at different locations and forecasts up to 5 days.
 
-## Credits 
-Mycroft AI (@MycroftAI)
+Use of this skill requires use of third-party APIs. If you do not have access to Neon API servers, you may access the
+Alpha Vantage API directly by providing a key in `~/owm.txt`. You can generate an Open Weather Map key
+[here](https://home.openweathermap.org/users/sign_up)
+  
+## Examples  
 
-## Category
-**Daily**
+Say `“Hey Neon”` if you are in the wake words mode.
+  
+- "what is the weather in Los Angeles"
 
-## Tags
-#weather
-#forecast
-#rain
-#humidity
-#snow
-#temperature
+- "what is the forecast for Friday"
+
+
+## Details
+
+### Text
+
+	    What is the weather?
+        >> In Seattle, it is currently clear sky and 59 degrees fahrenheit, with a high of 63 and a low of 55. Provided by Open Weather Map.
+	    
+	    What is the forecast for tomorrow in boston?
+        >> Tomorrow in boston, there will be broken clouds, with a high of 70 and a low of 45 degrees fahrenheit. Provided by Open Weather Map.
+
+	    
+
+### Picture
+
+### Video
+
+## Troubleshooting
+Try asking for a different location or changing your default location by saying `Neon change my location to Seattle`.
+
+## Contact Support
+Use the [link](https://neongecko.com/ContactUs) or [submit an issue on GitHub](https://help.github.com/en/articles/creating-an-issue)
+
+## Credits
+@NeonGeckoCom
+@MycroftAI
+@NeonDaniel
+@reginaneon

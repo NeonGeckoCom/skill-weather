@@ -125,13 +125,13 @@ class Weather:
 
     def __init__(self, weather: dict, timezone: str):
         self.date_time = convert_to_local_datetime(weather["dt"], timezone)
-        self.feels_like = weather["feelsLike"]
+        self.feels_like = weather.get("feels_like", weather.get("feelsLike"))
         self.pressure = weather["pressure"]
         self.humidity = weather["humidity"]
-        self.dew_point = weather["dewPoint"]
+        self.dew_point = weather.get("dew_point", weather.get("dewPoint"))
         self.clouds = weather["clouds"]
-        self.wind_speed = int(weather["windSpeed"])
-        self.wind_direction = self._determine_wind_direction(weather["windDeg"])
+        self.wind_speed = int(weather.get("wind_speed", weather.get("windSpeed")))
+        self.wind_direction = self._determine_wind_direction(weather.get("wind_deg", weather.get("windDeg")))
         self.condition = WeatherCondition(weather["weather"][0])
 
     @staticmethod
@@ -216,7 +216,7 @@ class DailyWeather(Weather):
         self.sunrise = convert_to_local_datetime(weather["sunrise"], timezone)
         self.sunset = convert_to_local_datetime(weather["sunset"], timezone)
         self.temperature = DailyTemperature(weather["temp"])
-        self.feels_like = DailyFeelsLike(weather["feelsLike"])
+        self.feels_like = DailyFeelsLike(weather.get("feels_like", weather.get("feelsLike")))
         self.chance_of_precipitation = int(weather["pop"] * 100)
 
 
@@ -243,7 +243,7 @@ class WeatherAlert:
 class WeatherReport:
     """Full representation of the data returned by the Open Weather Maps One Call API"""
 
-    def __init__(self, report):
+    def __init__(self, report: dict):
         timezone = report["timezone"]
         self.current = CurrentWeather(report["current"], timezone)
         self.hourly = [HourlyWeather(hour, timezone) for hour in report["hourly"]]
