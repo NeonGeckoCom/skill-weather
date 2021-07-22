@@ -11,7 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Parse the device configuration and skill settings to determine the """
+from neon_utils.configuration_utils import get_neon_user_config
+
 FAHRENHEIT = "fahrenheit"
 CELSIUS = "celsius"
 METRIC = "metric"
@@ -22,34 +23,35 @@ MILES_PER_HOUR = "miles per hour"
 class WeatherConfig:
     """Build an object representing the configuration values for the weather skill."""
 
-    def __init__(self, core_config: dict, settings: dict):
-        self.core_config = core_config
-        self.settings = settings
+    def __init__(self, user_location_config: dict = None, user_units_config: dict = None, skill_config: dict = None):
+        self.location_config = user_location_config or get_neon_user_config()["location"]
+        self.unit_system = user_units_config or get_neon_user_config()["units"]["measure"]
+        self.settings = skill_config or {}
 
     @property
     def city(self):
         """The current value of the city name in the device configuration."""
-        return self.core_config["location"]["city"]["name"]
+        return self.location_config["city"]
 
     @property
     def country(self):
         """The current value of the country name in the device configuration."""
-        return self.core_config["location"]["city"]["state"]["country"]["name"]
+        return self.location_config["country"]
 
     @property
     def latitude(self):
         """The current value of the latitude location configuration"""
-        return self.core_config["location"]["coordinate"]["latitude"]
+        return self.location_config["lat"]
 
     @property
     def longitude(self):
         """The current value of the longitude location configuration"""
-        return self.core_config["location"]["coordinate"]["longitude"]
+        return self.location_config["lng"]
 
     @property
     def state(self):
         """The current value of the state name in the device configuration."""
-        return self.core_config["location"]["city"]["state"]["name"]
+        return self.location_config["state"]
 
     @property
     def speed_unit(self) -> str:
@@ -57,8 +59,7 @@ class WeatherConfig:
 
         Returns: (str) 'meters_sec' or 'mph'
         """
-        system_unit = self.core_config["system_unit"]
-        if system_unit == METRIC:
+        if self.unit_system == METRIC:
             speed_unit = METERS_PER_SECOND
         else:
             speed_unit = MILES_PER_HOUR
@@ -72,7 +73,7 @@ class WeatherConfig:
         Returns: "celsius" or "fahrenheit"
         """
         unit_from_settings = self.settings.get("units")
-        measurement_system = self.core_config["system_unit"]
+        measurement_system = self.unit_system
         if measurement_system == METRIC:
             temperature_unit = CELSIUS
         else:
