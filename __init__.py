@@ -51,7 +51,7 @@ from requests import HTTPError
 from mycroft_bus_client import Message
 from neon_utils.skills.neon_skill import NeonSkill, LOG
 
-from mycroft.skills import intent_handler
+from mycroft.skills import intent_handler, skill_api_method
 from mycroft.util.parse import extract_number
 
 from .skill import (
@@ -1189,6 +1189,22 @@ class WeatherSkill(NeonSkill):
         return WeatherConfig(self.preference_location(message),
                              self.preference_unit(message),
                              self.preference_skill(message))
+
+    @skill_api_method
+    def get_current_weather_homescreen(self):
+        try:
+            config = self._get_weather_config(None)
+            unit = config.unit_system
+            coords = self.preference_location()
+            report = self.weather_api.get_weather_for_coordinates(unit, coords['lat'], coords['lng'])
+            current_report = report.current
+            img_code = report.current.condition.image.replace("images/", "icons/")
+            current_weather = current_report.temperature
+            result = {"weather_code": img_code, "weather_temp": current_weather}
+            return result
+        except Exception as e:
+            LOG.error(e)
+            return {}
 
 
 def create_skill():
