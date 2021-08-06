@@ -1198,7 +1198,7 @@ class WeatherSkill(NeonSkill):
             coords = self.preference_location()
             report = self.weather_api.get_weather_for_coordinates(unit, coords['lat'], coords['lng'])
             current_report = report.current
-            img_code = report.current.condition.image
+            img_code = report.current.condition.image.replace("images/", "icons/")
             current_weather = current_report.temperature
             result = {"weather_code": img_code, "weather_temp": current_weather}
             return result
