@@ -246,8 +246,8 @@ class WeatherReport:
     def __init__(self, report: dict):
         timezone = report["timezone"]
         self.current = CurrentWeather(report["current"], timezone)
-        self.hourly = [HourlyWeather(hour, timezone) for hour in report["hourly"]]
-        self.daily = [DailyWeather(day, timezone) for day in report["daily"]]
+        self.hourly = [HourlyWeather(hour, timezone) for hour in report.get("hourly", list())]
+        self.daily = [DailyWeather(day, timezone) for day in report.get("daily", list())]
         today = self.daily[0]
         self.current.high_temperature = today.temperature.high
         self.current.low_temperature = today.temperature.low
