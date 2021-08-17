@@ -64,6 +64,7 @@ from .skill import (
     get_dialog_for_timeframe,
     LocationNotFoundError,
     OpenWeatherMapApi,
+    WeatherCondition,
     WeatherConfig,
     WeatherIntent,
     WeatherReport,
@@ -1196,10 +1197,10 @@ class WeatherSkill(NeonSkill):
             config = self._get_weather_config(None)
             unit = config.unit_system
             coords = self.preference_location()
-            report = self.weather_api.get_weather_for_coordinates(unit, coords['lat'], coords['lng'])
-            current_report = report.current
-            img_code = report.current.condition.image.replace("images/", "icons/")
-            current_weather = current_report.temperature
+            current = self.weather_api.get_current_weather_for_coordinates(unit, coords['lat'], coords['lng'])
+            condition = WeatherCondition(current["weather"][0])
+            img_code = condition.image.replace("images/", "icons/")
+            current_weather = round(current["main"]["feels_like"])
             result = {"weather_code": img_code, "weather_temp": current_weather}
             return result
         except Exception as e:
