@@ -15,6 +15,8 @@
 from datetime import timedelta
 
 from mycroft.util.time import now_local
+from neon_utils.location_utils import get_coordinates, get_location
+
 from .util import (
     get_utterance_datetime,
     get_geolocation,
@@ -49,15 +51,28 @@ class WeatherIntent:
         requested.  If the user asks "What is the weather in Russia"
         an error will be raised.
         """
-        if self._geolocation is None:
-            if self.location is None:
-                self._geolocation = dict()
-            else:
-                self._geolocation = get_geolocation(self.location)
-                if self._geolocation["city"].lower() not in self.location.lower():
-                    raise LocationNotFoundError(self.location + " is not a city")
-
-        return self._geolocation
+        lat, lng = get_coordinates({"city": self.location})
+        city, county, state, country = get_location(lat, lng)
+        if not city and county:
+            city = f'{county} county'
+        if not city:
+            raise LocationNotFoundError(f"{self.location} could not be resolved")
+        return {'city': city,
+                'region': state,
+                'country': country,
+                'timezone': None,  # TODO: Populate this from somewhere DM
+                'latitude': lat,
+                'longitude': lng
+                }
+        # if self._geolocation is None:
+        #     if self.location is None:
+        #         self._geolocation = dict()
+        #     else:
+        #         self._geolocation = get_geolocation(self.location)
+        #         if self._geolocation["city"].lower() not in self.location.lower():
+        #             raise LocationNotFoundError(self.location + " is not a city")
+        #
+        # return self._geolocation
 
     @property
     def intent_datetime(self):
