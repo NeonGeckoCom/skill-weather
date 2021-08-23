@@ -88,7 +88,7 @@ class WeatherSkill(NeonSkill):
         api_key = self.settings['api_key']
         self.weather_api = OpenWeatherMapApi(api_key)
         self.weather_api.set_language_parameter(self.lang)
-        self.platform = self.config_core["enclosure"].get("platform", "unknown")
+        self.platform = self.config_core.get("enclosure", {}).get("platform", "unknown")
         # self._get_weather_config(message) = None
         self.log = LOG
 
