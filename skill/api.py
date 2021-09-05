@@ -88,6 +88,7 @@ class OpenWeatherMapApi:
             self.api_key = api_key or find_neon_owm_key()
         except FileNotFoundError:
             self.api_key = None
+        self.lang = "en-us"
         self.language = lang or "en"
 
     def get_current_weather_for_coordinates(
@@ -106,7 +107,7 @@ class OpenWeatherMapApi:
         return get_current_weather(latitude, longitude, measurement_system.lower(), **kwargs)
 
     def get_weather_for_coordinates(
-        self, measurement_system: str, latitude: float, longitude: float, lang: str = None
+        self, measurement_system: str, latitude: float, longitude: float, lang: str
     ) -> WeatherReport:
         """Issue an API call and map the return value into a weather report
 
@@ -117,6 +118,9 @@ class OpenWeatherMapApi:
             lang: language requested
         """
         lang = lang or self.language
+        if not self.lang == lang:
+            self.lang = lang
+            self.set_language_parameter(lang)
         kwargs = {"api_key": self.api_key, "language": lang} if self.api_key else {"language": lang}
         response = get_forecast(latitude, longitude, measurement_system.lower(), **kwargs)
         local_weather = WeatherReport(response)
