@@ -118,7 +118,7 @@ class WeatherSkill(NeonSkill):
         system_unit = self.config_core.get("system_unit")
         try:
             weather = self.weather_api.get_weather_for_coordinates(
-                system_unit, self.weather_config.latitude, self.weather_config.longitude
+                system_unit, self.weather_config.latitude, self.weather_config.longitude, self.lang
             )
         except Exception:
             self.log.exception("Unexpected error getting weather.")
@@ -1163,7 +1163,7 @@ class WeatherSkill(NeonSkill):
             try:
                 latitude, longitude = self._determine_weather_location(intent_data)
                 weather = self.weather_api.get_weather_for_coordinates(
-                    self.config_core.get("system_unit"), latitude, longitude
+                    self.config_core.get("system_unit"), latitude, longitude, self.lang
                 )
             except HTTPError as api_error:
                 self.log.exception("Weather API failure")
