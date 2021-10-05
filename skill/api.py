@@ -24,7 +24,7 @@ provided, precluding us from having to do the conversions.
 """
 
 from neon_utils.authentication_utils import find_neon_owm_key
-from neon_utils.service_apis.open_weather_map import get_forecast
+from neon_utils.service_apis.open_weather_map import get_forecast, get_current_weather
 
 from .weather import WeatherReport
 
@@ -84,8 +84,26 @@ class OpenWeatherMapApi:
     """Use Open Weather Map's One Call API to retrieve weather information"""
 
     def __init__(self, lang: str = "en", api_key: str = None):
-        self.api_key = api_key or find_neon_owm_key()
+        try:
+            self.api_key = api_key or find_neon_owm_key()
+        except FileNotFoundError:
+            self.api_key = None
         self.language = lang or "en"
+
+    def get_current_weather_for_coordinates(
+        self, measurement_system: str, latitude: float, longitude: float, lang: str = None
+    ) -> dict:
+        """Issue an API call and map the return value into a weather report
+
+        Args:
+            measurement_system: Metric or Imperial measurement units
+            latitude: the geologic latitude of the weather location
+            longitude: the geologic longitude of the weather location
+            lang: language requested
+        """
+        lang = lang or self.language
+        kwargs = {"api_key": self.api_key, "language": lang} if self.api_key else {"language": lang}
+        return get_current_weather(latitude, longitude, measurement_system.lower(), **kwargs)
 
     def get_weather_for_coordinates(
         self, measurement_system: str, latitude: float, longitude: float, lang: str = None

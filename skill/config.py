@@ -25,7 +25,7 @@ class WeatherConfig:
 
     def __init__(self, user_location_config: dict = None, user_units_config: dict = None, skill_config: dict = None):
         self.location_config = user_location_config or get_neon_user_config()["location"]
-        self.unit_system = user_units_config or get_neon_user_config()["units"]["measure"]
+        self.unit_system = user_units_config["measure"] or get_neon_user_config()["units"]["measure"]
         self.settings = skill_config or {}
 
     @property

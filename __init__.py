@@ -51,7 +51,7 @@ from requests import HTTPError
 from mycroft_bus_client import Message
 from neon_utils.skills.neon_skill import NeonSkill, LOG
 
-from mycroft.skills import intent_handler
+from mycroft.skills import intent_handler, skill_api_method
 from mycroft.util.parse import extract_number
 
 from .skill import (
@@ -64,6 +64,7 @@ from .skill import (
     get_dialog_for_timeframe,
     LocationNotFoundError,
     OpenWeatherMapApi,
+    WeatherCondition,
     WeatherConfig,
     WeatherIntent,
     WeatherReport,
@@ -87,7 +88,7 @@ class WeatherSkill(NeonSkill):
         api_key = self.settings['api_key']
         self.weather_api = OpenWeatherMapApi(api_key)
         self.weather_api.set_language_parameter(self.lang)
-        self.platform = self.config_core["enclosure"].get("platform", "unknown")
+        self.platform = self.config_core.get("enclosure", {}).get("platform", "unknown")
         # self._get_weather_config(message) = None
         self.log = LOG
 
@@ -1189,6 +1190,22 @@ class WeatherSkill(NeonSkill):
         return WeatherConfig(self.preference_location(message),
                              self.preference_unit(message),
                              self.preference_skill(message))
+
+    @skill_api_method
+    def get_current_weather_homescreen(self):
+        try:
+            config = self._get_weather_config(None)
+            unit = config.unit_system
+            coords = self.preference_location()
+            current = self.weather_api.get_current_weather_for_coordinates(unit, coords['lat'], coords['lng'])
+            condition = WeatherCondition(current["weather"][0])
+            img_code = condition.image.replace("images/", "icons/")
+            current_weather = round(current["main"]["feels_like"])
+            result = {"weather_code": img_code, "weather_temp": current_weather}
+            return result
+        except Exception as e:
+            LOG.error(e)
+            return {}
 
 
 def create_skill():
