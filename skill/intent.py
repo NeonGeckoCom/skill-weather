@@ -55,7 +55,7 @@ class WeatherIntent:
         self._location = {'city': city,
                           'region': state,
                           'country': country,
-                          'timezone': pytz.timezone(get_timezone(lat, lng)[0]),
+                          'timezone': str(pytz.timezone(get_timezone(lat, lng)[0])),
                           'latitude': lat,
                           'longitude': lng
                           }
