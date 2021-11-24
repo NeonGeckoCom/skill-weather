@@ -578,8 +578,9 @@ class WeatherSkill(NeonSkill):
             dialog = get_dialog_for_timeframe(intent_data.timeframe, dialog_args)
             dialog.build_humidity_dialog()
             dialog.data.update(
-                humidity=self.translate(
-                    "percentage-number", data=dict(num=dialog.data["humidity"])
+                percent=self.translate(
+                    "percentage-number",
+                    data=dict(number=dialog.data["percent"])
                 )
             )
             self._speak_weather(dialog)
