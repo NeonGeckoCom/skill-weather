@@ -29,7 +29,7 @@
         "arm"
     ],
     "branch": "master",
-    "license": "NeonAI License v1.0",
+    "license": "BSD-3-Clause",
     "icon": "https://rawgithub.com/FortAwesome/Font-Awesome/master/svgs/solid/sun.svg",
     "category": "",
     "categories": [
@@ -38,7 +38,13 @@
     "tags": [
         ""
     ],
+    "credits": [
+        "Mycroft AI",
+        "NeonDaniel",
+        "reginaneon"
+    ],
     "skillname": "Weather",
     "authorname": "NeonGeckoCom",
-    "foldername": null
+    "foldername": null,
+    "troubleshooting": "Try asking for a different location or changing your default location by saying `Neon change my location to Seattle`."
 }
