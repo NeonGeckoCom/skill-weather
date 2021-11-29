@@ -44,7 +44,6 @@ Try asking for a different location or changing your default location by saying 
 Use the [link](https://neongecko.com/ContactUs) or [submit an issue on GitHub](https://help.github.com/en/articles/creating-an-issue)
 
 ## Credits
-@NeonGeckoCom
-@MycroftAI
-@NeonDaniel
-@reginaneon
+[Mycroft AI](https://github.com/MycroftAI)
+[NeonDaniel](https://github.com/NeonDaniel)
+[reginaneon](https://github.com/reginaneon)

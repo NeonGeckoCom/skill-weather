@@ -29,7 +29,7 @@
         "arm"
     ],
     "branch": "master",
-    "license": "NeonAI License v1.0",
+    "license": "BSD-3-Clause",
     "icon": "https://rawgithub.com/FortAwesome/Font-Awesome/master/svgs/solid/sun.svg",
     "category": "",
     "categories": [
@@ -37,6 +37,11 @@
     ],
     "tags": [
         ""
+    ],
+    "credits": [
+        "Mycroft AI",
+        "NeonDaniel",
+        "reginaneon"
     ],
     "skillname": "Weather",
     "authorname": "NeonGeckoCom",
