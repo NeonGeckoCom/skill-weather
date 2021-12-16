@@ -87,7 +87,7 @@ def owm_language(lang: str):
     Convert Mycroft's language code to OpenWeatherMap's, if missing use english.
 
     Args:
-        language_config: The Mycroft language code.
+        lang: The Mycroft language code.
     """
     special_cases = {"cs": "cz", "ko": "kr", "lv": "la"}
     lang_primary, lang_subtag = lang.split('-')
@@ -143,7 +143,7 @@ class OpenWeatherMapApi:
         lang = lang or self.language
         if not self.lang == lang:
             self.lang = lang
-            self.set_language_parameter(lang)
+            # self.set_language_parameter(lang)
         kwargs = {"api_key": self.api_key, "language": owm_language(lang)} if self.api_key else {"language": lang}
         response = get_forecast(latitude, longitude, measurement_system.lower(), **kwargs)
         local_weather = WeatherReport(response)
