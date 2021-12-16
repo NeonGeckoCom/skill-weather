@@ -57,7 +57,7 @@ from requests import HTTPError
 from mycroft_bus_client import Message
 from neon_utils.skills.neon_skill import NeonSkill, LOG
 
-from mycroft.skills import MycroftSkill, intent_handler, skill_api_method
+from mycroft.skills import intent_handler, skill_api_method
 from mycroft.skills.intent_service import AdaptIntent
 from mycroft.messagebus.message import Message
 from mycroft.util.parse import extract_number
@@ -95,20 +95,20 @@ class WeatherSkill(NeonSkill):
         super().__init__("WeatherSkill")
         api_key = self.settings['api_key']
         self.weather_api = OpenWeatherMapApi(api_key)
-        self.weather_api.set_language_parameter(self.lang)
+        # self.weather_api.set_language_parameter(self.lang)
         self.platform = self.config_core.get("enclosure", {}).get("platform", "unknown")
         self.gui_image_directory = Path(self.root_dir).joinpath("ui")
-        # self._get_weather_config(message) = None
+        # self.weather_config = None
         self.log = LOG
 
     def initialize(self):
         """Do these things after the skill is loaded."""
-        # self._get_weather_config(message) = WeatherConfig(self.config_core, self.settings)
+        # self.weather_config = WeatherConfig(self.config_core, self.settings)
         self.add_event(
             "skill.weather.request-local-forecast", self.handle_get_local_forecast
         )
 
-    def handle_get_local_forecast(self, _):
+    def handle_get_local_forecast(self, message):
         """Handles a message bus command requesting current local weather information.
 
         Such a request will typically come from a domain external to this skill that
@@ -118,7 +118,8 @@ class WeatherSkill(NeonSkill):
         system_unit = self.config_core.get("system_unit")
         try:
             weather = self.weather_api.get_weather_for_coordinates(
-                system_unit, self.weather_config.latitude, self.weather_config.longitude, self.lang
+                system_unit, self._get_weather_config(message).latitude,
+                self._get_weather_config(message).longitude, self.lang
             )
         except Exception:
             self.log.exception("Unexpected error getting weather.")
