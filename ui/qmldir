@@ -1,0 +1,12 @@
+current_1_scalable 1.0 current_1_scalable.qml
+current_2_scalable 1.0 current_2_scalable.qml
+daily_scalable 1.0 daily_scalable.qml
+DailyColumn 1.0 DailyColumn.qml
+DailyColumnScalable 1.0 DailyColumnScalable.qml
+DailyDelegateScalable 1.0 DailyDelegateScalable.qml
+HourlyColumn 1.0 HourlyColumn.qml
+WeatherDate 1.0 WeatherDate.qml
+WeatherDelegateScalable 1.0 WeatherDelegateScalable.qml
+WeatherImage 1.0 WeatherImage.qml
+WeatherLabel 1.0 WeatherLabel.qml
+WeatherLocation 1.0 WeatherLocation.qml
