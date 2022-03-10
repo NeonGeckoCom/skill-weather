@@ -58,7 +58,7 @@ from mycroft_bus_client import Message
 from neon_utils.skills.neon_skill import NeonSkill, LOG
 
 from mycroft.skills import intent_handler, skill_api_method
-from mycroft.skills.intent_service import AdaptIntent
+from mycroft.skills.intent_services.adapt_service import AdaptIntent
 from mycroft.messagebus.message import Message
 from mycroft.util.parse import extract_number
 
