@@ -93,12 +93,9 @@ TWELVE_HOUR = "half"
 class WeatherSkill(NeonSkill):
     def __init__(self):
         super().__init__("WeatherSkill")
-        api_key = self.settings['api_key']
-        self.weather_api = OpenWeatherMapApi(api_key)
-        # self.weather_api.set_language_parameter(self.lang)
+        self._weather_api = None
         self.platform = self.config_core.get("enclosure", {}).get("platform", "unknown")
         self.gui_image_directory = Path(self.root_dir).joinpath("ui")
-        # self.weather_config = None
         self.log = LOG
 
     def initialize(self):
@@ -107,6 +104,12 @@ class WeatherSkill(NeonSkill):
         self.add_event(
             "skill.weather.request-local-forecast", self.handle_get_local_forecast
         )
+
+    @property
+    def weather_api(self):
+        if not self._weather_api:
+            self._weather_api = OpenWeatherMapApi(self.settings.get("api_key"))
+        return self._weather_api
 
     def handle_get_local_forecast(self, message):
         """Handles a message bus command requesting current local weather information.
