@@ -23,7 +23,7 @@ provided, precluding us from having to do the conversions.
 
 """
 
-from neon_utils.authentication_utils import find_neon_owm_key
+from neon_api_proxy.client.open_weather_map import get_current_weather
 from neon_utils.service_apis.open_weather_map import get_forecast, get_current_weather
 
 from .weather import WeatherReport
@@ -106,10 +106,7 @@ class OpenWeatherMapApi:
     """Use Open Weather Map's One Call API to retrieve weather information"""
 
     def __init__(self, lang: str = "en", api_key: str = None):
-        try:
-            self.api_key = api_key or find_neon_owm_key()
-        except FileNotFoundError:
-            self.api_key = None
+        self.api_key = api_key
         self.lang = "en-us"
         self.language = lang or "en"
 
