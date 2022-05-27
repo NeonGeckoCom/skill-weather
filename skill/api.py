@@ -23,8 +23,9 @@ provided, precluding us from having to do the conversions.
 
 """
 
-from neon_api_proxy.client.open_weather_map import get_current_weather
-from neon_utils.service_apis.open_weather_map import get_forecast, get_current_weather
+from neon_api_proxy.client.open_weather_map import get_current_weather, \
+    get_forecast
+from neon_utils.logger import LOG
 
 from .weather import WeatherReport
 
@@ -141,8 +142,11 @@ class OpenWeatherMapApi:
         if not self.lang == lang:
             self.lang = lang
             # self.set_language_parameter(lang)
-        kwargs = {"api_key": self.api_key, "language": owm_language(lang)} if self.api_key else {"language": lang}
-        response = get_forecast(latitude, longitude, measurement_system.lower(), **kwargs)
+        kwargs = {"api_key": self.api_key,
+                  "language": owm_language(lang)} if self.api_key else \
+            {"language": lang}
+        response = get_forecast(latitude, longitude,
+                                measurement_system.lower(), **kwargs)
         local_weather = WeatherReport(response)
 
         return local_weather
