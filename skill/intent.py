@@ -59,6 +59,7 @@ class WeatherIntent:
                           'latitude': lat,
                           'longitude': lng
                           }
+        return self._location
 
     @property
     def geolocation(self):

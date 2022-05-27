@@ -1228,9 +1228,11 @@ class WeatherSkill(NeonSkill):
         self.speak_dialog(dialog.name, dialog.data, wait=True)
 
     def _get_weather_config(self, message):
-        return WeatherConfig(self.preference_location(message),
-                             self.preference_unit(message),
-                             self.preference_skill(message))
+        from neon_utils.user_utils import get_user_prefs
+        config = get_user_prefs(message)
+        return WeatherConfig(config['location'],
+                             config['units'],
+                             self.settings)
 
     @skill_api_method
     def get_current_weather_homescreen(self):

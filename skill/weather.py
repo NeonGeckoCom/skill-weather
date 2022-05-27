@@ -15,6 +15,7 @@
 from datetime import timedelta
 from pathlib import Path
 from typing import List
+from neon_utils.logger import LOG
 
 from .config import MILES_PER_HOUR
 from .util import convert_to_local_datetime
@@ -244,6 +245,9 @@ class WeatherReport:
     """Full representation of the data returned by the Open Weather Maps One Call API"""
 
     def __init__(self, report: dict):
+        if "error" in report:
+            LOG.error(report)
+            raise Exception(report.get('content'))
         timezone = report["timezone"]
         self.current = CurrentWeather(report["current"], timezone)
         self.hourly = [HourlyWeather(hour, timezone) for hour in report.get("hourly", list())]
