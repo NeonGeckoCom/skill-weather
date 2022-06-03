@@ -56,6 +56,7 @@ from typing import List, Tuple
 from requests import HTTPError
 from mycroft_bus_client import Message
 from neon_utils.skills.neon_skill import NeonSkill, LOG
+from neon_utils.user_utils import get_user_prefs
 
 from mycroft.skills import intent_handler, skill_api_method
 from mycroft.skills.intent_services.adapt_service import AdaptIntent
@@ -1211,8 +1212,9 @@ class WeatherSkill(NeonSkill):
             latitude and longitude of the location
         """
         if intent_data.location is None:
-            latitude = self.preference_location()["lat"]
-            longitude = self.preference_location()["lng"]
+            location = get_user_prefs()['location']
+            latitude = location["lat"]
+            longitude = location["lng"]
         else:
             latitude = intent_data.geolocation["latitude"]
             longitude = intent_data.geolocation["longitude"]
@@ -1228,7 +1230,6 @@ class WeatherSkill(NeonSkill):
         self.speak_dialog(dialog.name, dialog.data, wait=True)
 
     def _get_weather_config(self, message):
-        from neon_utils.user_utils import get_user_prefs
         config = get_user_prefs(message)
         return WeatherConfig(config['location'],
                              config['units'],
@@ -1239,7 +1240,7 @@ class WeatherSkill(NeonSkill):
         try:
             config = self._get_weather_config(None)
             unit = config.unit_system
-            coords = self.preference_location()
+            coords = get_user_prefs()['location']
             current = self.weather_api.get_current_weather_for_coordinates(unit, coords['lat'], coords['lng'])
             condition = WeatherCondition(current["weather"][0])
             img_code = condition.image.replace("images/", "icons/")
