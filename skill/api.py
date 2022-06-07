@@ -23,8 +23,9 @@ provided, precluding us from having to do the conversions.
 
 """
 
-from neon_utils.authentication_utils import find_neon_owm_key
-from neon_utils.service_apis.open_weather_map import get_forecast, get_current_weather
+from neon_api_proxy.client.open_weather_map import get_current_weather, \
+    get_forecast
+from neon_utils.logger import LOG
 
 from .weather import WeatherReport
 
@@ -80,14 +81,34 @@ OPEN_WEATHER_MAP_LANGUAGES = (
 )
 
 
+def owm_language(lang: str):
+    """
+    OWM supports 31 languages, see https://openweathermap.org/current#multi
+
+    Convert Mycroft's language code to OpenWeatherMap's, if missing use english.
+
+    Args:
+        lang: The Mycroft language code.
+    """
+    special_cases = {"cs": "cz", "ko": "kr", "lv": "la"}
+    lang_primary, lang_subtag = lang.split('-')
+    if lang.replace('-', '_') in OPEN_WEATHER_MAP_LANGUAGES:
+        return lang.replace('-', '_')
+    if lang_primary in OPEN_WEATHER_MAP_LANGUAGES:
+        return lang_primary
+    if lang_subtag in OPEN_WEATHER_MAP_LANGUAGES:
+        return lang_subtag
+    if lang_primary in special_cases:
+        return special_cases[lang_primary]
+    return "en"
+
+
 class OpenWeatherMapApi:
     """Use Open Weather Map's One Call API to retrieve weather information"""
 
     def __init__(self, lang: str = "en", api_key: str = None):
-        try:
-            self.api_key = api_key or find_neon_owm_key()
-        except FileNotFoundError:
-            self.api_key = None
+        self.api_key = api_key
+        self.lang = "en-us"
         self.language = lang or "en"
 
     def get_current_weather_for_coordinates(
@@ -106,7 +127,8 @@ class OpenWeatherMapApi:
         return get_current_weather(latitude, longitude, measurement_system.lower(), **kwargs)
 
     def get_weather_for_coordinates(
-        self, measurement_system: str, latitude: float, longitude: float, lang: str = None
+        self, measurement_system: str, latitude: float,
+        longitude: float, lang: str
     ) -> WeatherReport:
         """Issue an API call and map the return value into a weather report
 
@@ -117,28 +139,14 @@ class OpenWeatherMapApi:
             lang: language requested
         """
         lang = lang or self.language
-        kwargs = {"api_key": self.api_key, "language": lang} if self.api_key else {"language": lang}
-        response = get_forecast(latitude, longitude, measurement_system.lower(), **kwargs)
+        if not self.lang == lang:
+            self.lang = lang
+            # self.set_language_parameter(lang)
+        kwargs = {"api_key": self.api_key,
+                  "language": owm_language(lang)} if self.api_key else \
+            {"language": lang}
+        response = get_forecast(latitude, longitude,
+                                measurement_system.lower(), **kwargs)
         local_weather = WeatherReport(response)
 
         return local_weather
-
-    def set_language_parameter(self, language_config: str):
-        """
-        OWM supports 31 languages, see https://openweathermap.org/current#multi
-
-        Convert Mycroft's language code to OpenWeatherMap's, if missing use english.
-
-        Args:
-            language_config: The Mycroft language code.
-        """
-        special_cases = {"cs": "cz", "ko": "kr", "lv": "la"}
-        language_part_one, language_part_two = language_config.split('-')
-        if language_config.replace('-', '_') in OPEN_WEATHER_MAP_LANGUAGES:
-            self.language = language_config.replace('-', '_')
-        elif language_part_one in OPEN_WEATHER_MAP_LANGUAGES:
-            self.language = language_part_one
-        elif language_part_two in OPEN_WEATHER_MAP_LANGUAGES:
-            self.language = language_part_two
-        elif language_part_one in special_cases:
-            self.language = special_cases[language_part_one]

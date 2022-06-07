@@ -49,14 +49,18 @@ city name provided in the request.
 """
 
 from datetime import datetime
+from pathlib import Path
 from time import sleep
 from typing import List, Tuple
-from adapt.intent import IntentBuilder
+
 from requests import HTTPError
 from mycroft_bus_client import Message
 from neon_utils.skills.neon_skill import NeonSkill, LOG
+from neon_utils.user_utils import get_user_prefs
 
 from mycroft.skills import intent_handler, skill_api_method
+from mycroft.skills.intent_services.adapt_service import AdaptIntent
+from mycroft.messagebus.message import Message
 from mycroft.util.parse import extract_number
 
 from .skill import (
@@ -90,19 +94,59 @@ TWELVE_HOUR = "half"
 class WeatherSkill(NeonSkill):
     def __init__(self):
         super().__init__("WeatherSkill")
-        api_key = self.settings['api_key']
-        self.weather_api = OpenWeatherMapApi(api_key)
-        self.weather_api.set_language_parameter(self.lang)
+        self._weather_api = None
         self.platform = self.config_core.get("enclosure", {}).get("platform", "unknown")
-        # self._get_weather_config(message) = None
+        self.gui_image_directory = Path(self.root_dir).joinpath("ui")
         self.log = LOG
 
     def initialize(self):
         """Do these things after the skill is loaded."""
-        # self._get_weather_config(message) = WeatherConfig(self.config_core, self.settings)
+        # self.weather_config = WeatherConfig(self.config_core, self.settings)
+        self.add_event(
+            "skill.weather.request-local-forecast", self.handle_get_local_forecast
+        )
+
+    @property
+    def weather_api(self):
+        if not self._weather_api:
+            self._weather_api = OpenWeatherMapApi(self.settings.get("api_key"))
+        return self._weather_api
+
+    def handle_get_local_forecast(self, message):
+        """Handles a message bus command requesting current local weather information.
+
+        Such a request will typically come from a domain external to this skill that
+        requires weather information but should not go through the intent system
+        to get it.
+        """
+        system_unit = self.config_core.get("system_unit")
+        try:
+            weather = self.weather_api.get_weather_for_coordinates(
+                system_unit, self._get_weather_config(message).latitude,
+                self._get_weather_config(message).longitude, self.lang
+            )
+        except Exception:
+            self.log.exception("Unexpected error getting weather.")
+            self.bus.emit(Message("skill.weather.local-forecast-failure."))
+        else:
+            self._emit_local_weather_response(weather)
+
+    def _emit_local_weather_response(self, weather):
+        """Emits an event indicating that the request for local weather was satisfied.
+
+        Responds to the command for local weather retrieval.
+        """
+        image_path = self.gui_image_directory.joinpath(weather.current.condition.image)
+        weather_condition_url = "file://" + str(image_path)
+        event_data = dict(
+            temperature=weather.current.temperature,
+            weather_condition=weather_condition_url,
+        )
+        event = Message("skill.weather.local-forecast-obtained", data=event_data)
+        self.bus.emit(event)
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .optionally("query")
         .one_of("weather", "forecast")
         .optionally("location")
@@ -117,7 +161,7 @@ class WeatherSkill(NeonSkill):
         self._report_current_weather(message)
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .require("query")
         .require("like")
         .require("outside")
@@ -132,7 +176,7 @@ class WeatherSkill(NeonSkill):
         self._report_current_weather(message)
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .optionally("query")
         .one_of("weather", "forecast")
         .require("number-days")
@@ -153,11 +197,14 @@ class WeatherSkill(NeonSkill):
         elif self.voc_match(message.data["utterance"], "few"):
             days = 3
         else:
-            days = int(extract_number(message.data["utterance"]))
+            # Some STT engines hyphenate the day count (i.e. 3-day).  This is not
+            # handled by extract_number() so remove the hyphen if it is there.
+            utterance = message.data["utterance"].replace("-day", " day")
+            days = int(extract_number(utterance))
         self._report_multi_day_forecast(message, days)
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .optionally("query")
         .one_of("weather", "forecast")
         .require("relative-day")
@@ -176,7 +223,7 @@ class WeatherSkill(NeonSkill):
         self._report_one_day_forecast(message)
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .require("query")
         .require("weather")
         .require("later")
@@ -191,7 +238,7 @@ class WeatherSkill(NeonSkill):
         self._report_one_hour_weather(message)
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .optionally("query")
         .one_of("weather", "forecast")
         .require("relative-time")
@@ -207,7 +254,7 @@ class WeatherSkill(NeonSkill):
         self._report_one_hour_weather(message)
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .require("query")
         .one_of("weather", "forecast")
         .require("weekend")
@@ -222,7 +269,7 @@ class WeatherSkill(NeonSkill):
         self._report_weekend_forecast(message)
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .optionally("query")
         .one_of("weather", "forecast")
         .require("week")
@@ -237,7 +284,7 @@ class WeatherSkill(NeonSkill):
         self._report_week_summary(message)
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .optionally("query")
         .require("temperature")
         .optionally("location")
@@ -258,7 +305,7 @@ class WeatherSkill(NeonSkill):
         self._report_temperature(message, temperature_type="current")
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .optionally("query")
         .require("temperature")
         .require("relative-day")
@@ -276,7 +323,7 @@ class WeatherSkill(NeonSkill):
         self._report_temperature(message, temperature_type="current")
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .optionally("query")
         .require("temperature")
         .require("relative-time")
@@ -296,7 +343,7 @@ class WeatherSkill(NeonSkill):
         self._report_temperature(message)
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .optionally("query")
         .require("high")
         .optionally("temperature")
@@ -319,7 +366,7 @@ class WeatherSkill(NeonSkill):
         self._report_temperature(message, temperature_type="high")
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .optionally("query")
         .require("low")
         .optionally("temperature")
@@ -342,7 +389,7 @@ class WeatherSkill(NeonSkill):
         self._report_temperature(message, temperature_type="low")
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .require("confirm-query-current")
         .one_of("hot", "cold")
         .optionally("location")
@@ -357,7 +404,7 @@ class WeatherSkill(NeonSkill):
         self._report_temperature(message, "current")
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .optionally("query")
         .one_of("hot", "cold")
         .require("confirm-query")
@@ -376,7 +423,7 @@ class WeatherSkill(NeonSkill):
         self._report_temperature(message, temperature_type)
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .require("confirm-query")
         .require("windy")
         .optionally("location")
@@ -391,7 +438,7 @@ class WeatherSkill(NeonSkill):
         self._report_wind(message)
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .require("how")
         .require("windy")
         .optionally("confirm-query")
@@ -407,10 +454,7 @@ class WeatherSkill(NeonSkill):
         self._report_wind(message)
 
     @intent_handler(
-        IntentBuilder("")
-        .require("confirm-query")
-        .require("snow")
-        .optionally("location")
+        AdaptIntent().require("confirm-query").require("snow").optionally("location")
     )
     def handle_is_it_snowing(self, message: Message):
         """Handler for weather requests such as: is it snowing today?
@@ -421,10 +465,7 @@ class WeatherSkill(NeonSkill):
         self._report_weather_condition(message, "snow")
 
     @intent_handler(
-        IntentBuilder("")
-        .require("confirm-query")
-        .require("clear")
-        .optionally("location")
+        AdaptIntent().require("confirm-query").require("clear").optionally("location")
     )
     def handle_is_it_clear(self, message: Message):
         """Handler for weather requests such as: is the sky clear today?
@@ -435,7 +476,7 @@ class WeatherSkill(NeonSkill):
         self._report_weather_condition(message, condition="clear")
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .require("confirm-query")
         .require("clouds")
         .optionally("location")
@@ -450,7 +491,7 @@ class WeatherSkill(NeonSkill):
         self._report_weather_condition(message, "clouds")
 
     @intent_handler(
-        IntentBuilder("").require("ConfirmQuery").require("Fog").optionally("Location")
+        AdaptIntent().require("ConfirmQuery").require("Fog").optionally("location")
     )
     def handle_is_it_foggy(self, message: Message):
         """Handler for weather requests such as: is it foggy today?
@@ -461,14 +502,14 @@ class WeatherSkill(NeonSkill):
         self._report_weather_condition(message, "fog")
 
     @intent_handler(
-        IntentBuilder("").require("ConfirmQuery").require("Rain").optionally("Location")
+        AdaptIntent().require("ConfirmQuery").require("Rain").optionally("location")
     )
     def handle_is_it_raining(self, message: Message):
         """Handler for weather requests such as: is it raining today?
 
         Args:
             message: Message Bus event information from the intent parser
-0]       """
+        """
         self._report_weather_condition(message, "rain")
 
     @intent_handler("do-i-need-an-umbrella.intent")
@@ -481,7 +522,7 @@ class WeatherSkill(NeonSkill):
         self._report_weather_condition(message, "rain")
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .require("ConfirmQuery")
         .require("Thunderstorm")
         .optionally("Location")
@@ -495,7 +536,7 @@ class WeatherSkill(NeonSkill):
         self._report_weather_condition(message, "thunderstorm")
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .require("When")
         .optionally("Next")
         .require("Precipitation")
@@ -522,7 +563,7 @@ class WeatherSkill(NeonSkill):
             self._speak_weather(dialog)
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .require("Query")
         .require("Humidity")
         .optionally("RelativeDay")
@@ -542,14 +583,15 @@ class WeatherSkill(NeonSkill):
             dialog = get_dialog_for_timeframe(intent_data.timeframe, dialog_args)
             dialog.build_humidity_dialog()
             dialog.data.update(
-                humidity=self.translate(
-                    "percentage-number", data=dict(num=dialog.data["humidity"])
+                percent=self.translate(
+                    "percentage-number",
+                    data=dict(number=dialog.data["percent"])
                 )
             )
             self._speak_weather(dialog)
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .one_of("Query", "When")
         .optionally("Location")
         .require("Sunrise")
@@ -575,7 +617,7 @@ class WeatherSkill(NeonSkill):
             self._speak_weather(dialog)
 
     @intent_handler(
-        IntentBuilder("")
+        AdaptIntent()
         .one_of("Query", "When")
         .require("Sunset")
         .optionally("Location")
@@ -692,11 +734,11 @@ class WeatherSkill(NeonSkill):
             page_name = "current_1_scalable.qml"
             self.gui.clear()
             self.gui["currentTemperature"] = weather.current.temperature
+            self.gui["weatherLocation"] = weather_location
+            self.gui["highTemperature"] = weather.current.high_temperature
+            self.gui["lowTemperature"] = weather.current.low_temperature
             if self.platform == MARK_II:
                 self.gui["weatherCondition"] = weather.current.condition.image
-                self.gui["weatherLocation"] = weather_location
-                self.gui["highTemperature"] = weather.current.high_temperature
-                self.gui["lowTemperature"] = weather.current.low_temperature
                 page_name = page_name.replace("scalable", "mark_ii")
             else:
                 self.gui["weatherCode"] = weather.current.condition.code
@@ -747,14 +789,11 @@ class WeatherSkill(NeonSkill):
         """
         page_name = "current_2_scalable.qml"
         self.gui.clear()
+        self.gui["weatherLocation"] = weather_location
+        self.gui["windSpeed"] = weather.current.wind_speed
+        self.gui["humidity"] = weather.current.humidity
         if self.platform == MARK_II:
-            self.gui["weatherLocation"] = weather_location
-            self.gui["windSpeed"] = weather.current.wind_speed
-            self.gui["humidity"] = weather.current.humidity
             page_name = page_name.replace("scalable", "mark_ii")
-        else:
-            self.gui["highTemperature"] = weather.current.high_temperature
-            self.gui["lowTemperature"] = weather.current.low_temperature
         self.gui.show_page(page_name)
 
     def _report_one_hour_weather(self, message: Message):
@@ -1008,24 +1047,22 @@ class WeatherSkill(NeonSkill):
         Args:
             forecast: daily forecasts to display
         """
-        page_one_name = "daily_1_scalable.qml"
-        page_two_name = page_one_name.replace("1", "2")
+        page_one_name = "daily_scalable.qml"
         display_data = []
         for day_number, day in enumerate(forecast):
             if day_number == 4:
                 break
             display_data.append(
                 dict(
-                    weatherCondition=day.condition.animation,
+                    weatherCondition=day.condition.image,
                     highTemperature=day.temperature.high,
                     lowTemperature=day.temperature.low,
                     date=day.date_time.strftime("%a"),
                 )
             )
-        self.gui["forecast"] = dict(first=display_data[:2], second=display_data[2:])
+        self.gui.clear()
+        self.gui["forecast"] = dict(first=display_data[:4])
         self.gui.show_page(page_one_name)
-        sleep(5)
-        self.gui.show_page(page_two_name)
 
     def _report_temperature(self, message: Message, temperature_type: str = None):
         """Handles all requests for a temperature.
@@ -1135,7 +1172,7 @@ class WeatherSkill(NeonSkill):
             try:
                 latitude, longitude = self._determine_weather_location(intent_data)
                 weather = self.weather_api.get_weather_for_coordinates(
-                    self.config_core.get("system_unit"), latitude, longitude
+                    self.config_core.get("system_unit"), latitude, longitude, self.lang
                 )
             except HTTPError as api_error:
                 self.log.exception("Weather API failure")
@@ -1175,8 +1212,9 @@ class WeatherSkill(NeonSkill):
             latitude and longitude of the location
         """
         if intent_data.location is None:
-            latitude = self.preference_location()["lat"]
-            longitude = self.preference_location()["lng"]
+            location = get_user_prefs()['location']
+            latitude = location["lat"]
+            longitude = location["lng"]
         else:
             latitude = intent_data.geolocation["latitude"]
             longitude = intent_data.geolocation["longitude"]
@@ -1192,16 +1230,17 @@ class WeatherSkill(NeonSkill):
         self.speak_dialog(dialog.name, dialog.data, wait=True)
 
     def _get_weather_config(self, message):
-        return WeatherConfig(self.preference_location(message),
-                             self.preference_unit(message),
-                             self.preference_skill(message))
+        config = get_user_prefs(message)
+        return WeatherConfig(config['location'],
+                             config['units'],
+                             self.settings)
 
     @skill_api_method
     def get_current_weather_homescreen(self):
         try:
             config = self._get_weather_config(None)
             unit = config.unit_system
-            coords = self.preference_location()
+            coords = get_user_prefs()['location']
             current = self.weather_api.get_current_weather_for_coordinates(unit, coords['lat'], coords['lng'])
             condition = WeatherCondition(current["weather"][0])
             img_code = condition.image.replace("images/", "icons/")

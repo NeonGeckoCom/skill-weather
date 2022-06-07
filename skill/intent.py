@@ -20,7 +20,7 @@ from neon_utils.location_utils import get_coordinates, get_location, get_timezon
 
 from .util import (
     get_utterance_datetime,
-    get_geolocation,
+    # get_geolocation,
     get_tz_info,
     LocationNotFoundError,
 )
@@ -59,6 +59,7 @@ class WeatherIntent:
                           'latitude': lat,
                           'longitude': lng
                           }
+        return self._location
 
     @property
     def geolocation(self):
@@ -68,9 +69,15 @@ class WeatherIntent:
         requested.  If the user asks "What is the weather in Russia"
         an error will be raised.
         """
-        if not self._location:
-            self._get_location()
-        return self._location
+        if self._geolocation is None:
+            if self.location is None:
+                self._geolocation = dict()
+            else:
+                self._geolocation = self._get_location()
+                if self._geolocation["city"].lower() not in self.location.lower():
+                    raise LocationNotFoundError(self.location + " is not a city")
+
+        return self._geolocation
 
     @property
     def intent_datetime(self):
