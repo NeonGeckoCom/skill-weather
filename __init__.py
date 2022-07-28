@@ -1170,9 +1170,10 @@ class WeatherSkill(NeonSkill):
         weather = None
         if intent_data is not None:
             try:
+                unit = get_user_prefs()['units']['measure']
                 latitude, longitude = self._determine_weather_location(intent_data)
                 weather = self.weather_api.get_weather_for_coordinates(
-                    self.config_core.get("system_unit"), latitude, longitude, self.lang
+                    unit, latitude, longitude, self.lang
                 )
             except HTTPError as api_error:
                 self.log.exception("Weather API failure")
