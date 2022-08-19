@@ -1241,6 +1241,7 @@ class WeatherSkill(NeonSkill):
     @skill_api_method
     def get_current_weather_homescreen(self, msg: Optional[Message] = None):
         try:
+            LOG.info(f"Handling request for weather")
             config = self._get_weather_config(None)
             unit = config.unit_system
             coords = get_user_prefs()['location']
@@ -1250,8 +1251,10 @@ class WeatherSkill(NeonSkill):
             current_weather = round(current["main"]["feels_like"])
             result = {"weather_code": img_code, "weather_temp": current_weather}
             if msg:
-                msg.reply("skill-ovos-weather.openvoiceos.weather.response",
-                          data={"report": result})
+                LOG.debug("Emitting weather response")
+                self.bus.emit(msg.reply(
+                    "skill-ovos-weather.openvoiceos.weather.response",
+                    data={"report": result}))
             return result
         except Exception as e:
             LOG.error(e)
