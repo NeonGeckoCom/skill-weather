@@ -25,7 +25,6 @@ provided, precluding us from having to do the conversions.
 
 from neon_api_proxy.client.open_weather_map import get_current_weather, \
     get_forecast
-from neon_utils.logger import LOG
 
 from .weather import WeatherReport
 

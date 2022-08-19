@@ -51,7 +51,7 @@ city name provided in the request.
 from datetime import datetime
 from pathlib import Path
 from time import sleep
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 from requests import HTTPError
 from mycroft_bus_client import Message
@@ -105,6 +105,8 @@ class WeatherSkill(NeonSkill):
         self.add_event(
             "skill.weather.request-local-forecast", self.handle_get_local_forecast
         )
+        self.add_event("skill-ovos-weather.openvoiceos.weather.request",
+                       self.get_current_weather_homescreen)
 
     @property
     def weather_api(self):
@@ -1170,9 +1172,10 @@ class WeatherSkill(NeonSkill):
         weather = None
         if intent_data is not None:
             try:
+                unit = get_user_prefs()['units']['measure']
                 latitude, longitude = self._determine_weather_location(intent_data)
                 weather = self.weather_api.get_weather_for_coordinates(
-                    self.config_core.get("system_unit"), latitude, longitude, self.lang
+                    unit, latitude, longitude, self.lang
                 )
             except HTTPError as api_error:
                 self.log.exception("Weather API failure")
@@ -1236,8 +1239,9 @@ class WeatherSkill(NeonSkill):
                              self.settings)
 
     @skill_api_method
-    def get_current_weather_homescreen(self):
+    def get_current_weather_homescreen(self, msg: Optional[Message] = None):
         try:
+            LOG.info(f"Handling request for weather")
             config = self._get_weather_config(None)
             unit = config.unit_system
             coords = get_user_prefs()['location']
@@ -1246,6 +1250,11 @@ class WeatherSkill(NeonSkill):
             img_code = condition.image.replace("images/", "icons/")
             current_weather = round(current["main"]["feels_like"])
             result = {"weather_code": img_code, "weather_temp": current_weather}
+            if msg:
+                LOG.debug("Emitting weather response")
+                self.bus.emit(msg.reply(
+                    "skill-ovos-weather.openvoiceos.weather.response",
+                    data={"report": result}))
             return result
         except Exception as e:
             LOG.error(e)

@@ -11,7 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from neon_utils.configuration_utils import get_neon_user_config
+
+from neon_utils.user_utils import get_user_prefs
 
 FAHRENHEIT = "fahrenheit"
 CELSIUS = "celsius"
@@ -24,8 +25,11 @@ class WeatherConfig:
     """Build an object representing the configuration values for the weather skill."""
 
     def __init__(self, user_location_config: dict = None, user_units_config: dict = None, skill_config: dict = None):
-        self.location_config = user_location_config or get_neon_user_config()["location"]
-        self.unit_system = user_units_config["measure"] or get_neon_user_config()["units"]["measure"]
+        user_units_config = user_units_config or dict()
+        self.location_config = user_location_config or \
+            get_user_prefs()["location"]
+        self.unit_system = user_units_config.get("measure") or \
+            get_user_prefs()["units"]["measure"]
         self.settings = skill_config or {}
 
     @property
