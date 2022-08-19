@@ -25,9 +25,10 @@ class WeatherConfig:
     """Build an object representing the configuration values for the weather skill."""
 
     def __init__(self, user_location_config: dict = None, user_units_config: dict = None, skill_config: dict = None):
+        user_units_config = user_units_config or dict()
         self.location_config = user_location_config or \
             get_user_prefs()["location"]
-        self.unit_system = user_units_config["measure"] or \
+        self.unit_system = user_units_config.get("measure") or \
             get_user_prefs()["units"]["measure"]
         self.settings = skill_config or {}
 
