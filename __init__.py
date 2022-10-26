@@ -50,7 +50,7 @@ city name provided in the request.
 
 from datetime import datetime
 from pathlib import Path
-from time import sleep
+from time import sleep, time
 from typing import List, Tuple, Optional
 
 from requests import HTTPError
@@ -705,16 +705,25 @@ class WeatherSkill(NeonSkill):
         if weather is not None:
             weather_location = self._build_display_location(intent_data, weather_config)
             self._display_current_conditions(weather, weather_location)
+            gui_start = time()
             dialog = CurrentDialog(intent_data, weather_config, weather.current)
             dialog.build_weather_dialog()
             wait_for_signal_clear('isSpeaking')
             self._speak_weather(dialog)
             if self.gui.connected and self.platform != MARK_II:
+                # Make sure the GUI page is shown for at least 10 seconds
+                while time() - gui_start < 10:
+                    sleep(1)
+                wait_for_signal_clear('isSpeaking')
                 self._display_more_current_conditions(weather, weather_location)
             dialog = CurrentDialog(intent_data, weather_config, weather.current)
             dialog.build_high_low_temperature_dialog()
             self._speak_weather(dialog)
             if self.gui.connected:
+                # Make sure the GUI page is shown for at least 10 seconds
+                while time() - gui_start < 10:
+                    sleep(1)
+                wait_for_signal_clear('isSpeaking')
                 if self.platform == MARK_II:
                     self._display_more_current_conditions(weather, weather_location)
                     sleep(10)
