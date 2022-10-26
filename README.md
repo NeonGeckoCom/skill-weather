@@ -16,26 +16,9 @@ Alpha Vantage API directly by providing a key in `~/owm.txt`. You can generate a
 
 Say `“Hey Neon”` if you are in the wake words mode.
   
-- "what is the weather in Los Angeles"
+- "What is the weather in Los Angeles?"
 
-- "what is the forecast for Friday"
-
-
-## Details
-
-### Text
-
-	    What is the weather?
-        >> In Seattle, it is currently clear sky and 59 degrees fahrenheit, with a high of 63 and a low of 55. Provided by Open Weather Map.
-	    
-	    What is the forecast for tomorrow in boston?
-        >> Tomorrow in boston, there will be broken clouds, with a high of 70 and a low of 45 degrees fahrenheit. Provided by Open Weather Map.
-
-	    
-
-### Picture
-
-### Video
+- "What is the forecast for Friday?"
 
 ## Troubleshooting
 Try asking for a different location or changing your default location by saying `Neon change my location to Seattle`.
