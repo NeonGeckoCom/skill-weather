@@ -53,10 +53,10 @@ from pathlib import Path
 from time import sleep
 from typing import List, Tuple, Optional
 
-from mycroft.audio import wait_while_speaking
 from requests import HTTPError
 from mycroft_bus_client import Message
 from neon_utils.skills.neon_skill import NeonSkill, LOG
+from neon_utils.signal_utils import wait_for_signal_clear
 from neon_utils.user_utils import get_user_prefs
 
 from mycroft.skills import intent_handler, skill_api_method
@@ -707,7 +707,7 @@ class WeatherSkill(NeonSkill):
             self._display_current_conditions(weather, weather_location)
             dialog = CurrentDialog(intent_data, weather_config, weather.current)
             dialog.build_weather_dialog()
-            wait_while_speaking()
+            wait_for_signal_clear('isSpeaking')
             self._speak_weather(dialog)
             if self.gui.connected and self.platform != MARK_II:
                 self._display_more_current_conditions(weather, weather_location)
