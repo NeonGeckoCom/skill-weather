@@ -50,12 +50,13 @@ city name provided in the request.
 
 from datetime import datetime
 from pathlib import Path
-from time import sleep
+from time import sleep, time
 from typing import List, Tuple, Optional
 
 from requests import HTTPError
 from mycroft_bus_client import Message
 from neon_utils.skills.neon_skill import NeonSkill, LOG
+from neon_utils.signal_utils import wait_for_signal_clear
 from neon_utils.user_utils import get_user_prefs
 
 from mycroft.skills import intent_handler, skill_api_method
@@ -704,18 +705,28 @@ class WeatherSkill(NeonSkill):
         if weather is not None:
             weather_location = self._build_display_location(intent_data, weather_config)
             self._display_current_conditions(weather, weather_location)
+            gui_start = time()
             dialog = CurrentDialog(intent_data, weather_config, weather.current)
             dialog.build_weather_dialog()
+            wait_for_signal_clear('isSpeaking')
             self._speak_weather(dialog)
             if self.gui.connected and self.platform != MARK_II:
+                # Make sure the GUI page is shown for at least 10 seconds
+                while time() - gui_start < 10:
+                    sleep(1)
+                wait_for_signal_clear('isSpeaking')
                 self._display_more_current_conditions(weather, weather_location)
             dialog = CurrentDialog(intent_data, weather_config, weather.current)
             dialog.build_high_low_temperature_dialog()
             self._speak_weather(dialog)
             if self.gui.connected:
+                # Make sure the GUI page is shown for at least 10 seconds
+                while time() - gui_start < 10:
+                    sleep(1)
+                wait_for_signal_clear('isSpeaking')
                 if self.platform == MARK_II:
                     self._display_more_current_conditions(weather, weather_location)
-                    sleep(5)
+                    sleep(10)
                     self._display_hourly_forecast(weather, weather_location)
                 else:
                     four_day_forecast = weather.daily[1:5]
