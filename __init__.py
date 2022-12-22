@@ -1245,6 +1245,11 @@ class WeatherSkill(NeonSkill):
 
     def _get_weather_config(self, message):
         config = get_user_prefs(message)
+        if not all((config['location'].get('lat'),
+                    config['location'].get('lng'))):
+            from neon_utils.configuration_utils import \
+                get_user_config_from_mycroft_conf
+            config = get_user_config_from_mycroft_conf()
         return WeatherConfig(config['location'],
                              config['units'],
                              self.settings)

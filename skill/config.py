@@ -13,6 +13,7 @@
 # limitations under the License.
 
 from neon_utils.user_utils import get_user_prefs
+from ovos_utils.log import LOG
 
 FAHRENHEIT = "fahrenheit"
 CELSIUS = "celsius"
