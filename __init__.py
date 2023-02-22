@@ -55,7 +55,10 @@ from typing import List, Tuple, Optional
 
 from requests import HTTPError
 from mycroft_bus_client import Message
-from neon_utils.skills.neon_skill import NeonSkill, LOG
+from ovos_utils import classproperty
+from ovos_utils.log import LOG
+from ovos_utils.process_utils import RuntimeRequirements
+from neon_utils.skills.neon_skill import NeonSkill
 from neon_utils.signal_utils import wait_for_signal_clear
 from neon_utils.user_utils import get_user_prefs
 
@@ -99,6 +102,18 @@ class WeatherSkill(NeonSkill):
         self.platform = self.config_core.get("enclosure", {}).get("platform", "unknown")
         self.gui_image_directory = Path(self.root_dir).joinpath("ui")
         self.log = LOG
+
+    @classproperty
+    def runtime_requirements(self):
+        return RuntimeRequirements(network_before_load=False,
+                                   internet_before_load=False,
+                                   gui_before_load=False,
+                                   requires_internet=True,
+                                   requires_network=True,
+                                   requires_gui=False,
+                                   no_internet_fallback=True,
+                                   no_network_fallback=True,
+                                   no_gui_fallback=True)
 
     def initialize(self):
         """Do these things after the skill is loaded."""
