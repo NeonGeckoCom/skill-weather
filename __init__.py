@@ -96,8 +96,8 @@ TWELVE_HOUR = "half"
 
 
 class WeatherSkill(NeonSkill):
-    def __init__(self):
-        super().__init__("WeatherSkill")
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self._weather_api = None
         self.platform = self.config_core.get("enclosure", {}).get("platform", "unknown")
         self.gui_image_directory = Path(self.root_dir).joinpath("ui")
@@ -1290,8 +1290,3 @@ class WeatherSkill(NeonSkill):
         except Exception as e:
             LOG.error(e)
             return {}
-
-
-def create_skill():
-    """Boilerplate to invoke the weather skill."""
-    return WeatherSkill()
