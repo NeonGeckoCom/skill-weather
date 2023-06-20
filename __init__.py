@@ -1280,7 +1280,7 @@ class WeatherSkill(NeonSkill):
                 unit, coords['lat'], coords['lng'])
             condition = WeatherCondition(current["weather"][0])
             img_code = condition.image.replace("images/", "icons/")
-            current_weather = round(current["main"]["feels_like"])
+            current_weather = round(current["main"]["temp"])
             result = {"weather_code": img_code, "weather_temp": current_weather}
             if msg:
                 LOG.debug("Emitting weather response")
