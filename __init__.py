@@ -1272,11 +1272,12 @@ class WeatherSkill(NeonSkill):
     @skill_api_method
     def get_current_weather_homescreen(self, msg: Optional[Message] = None):
         try:
-            LOG.info(f"Handling request for weather")
             config = self._get_weather_config(None)
             unit = config.unit_system
             coords = get_user_prefs()['location']
-            current = self.weather_api.get_current_weather_for_coordinates(unit, coords['lat'], coords['lng'])
+            LOG.info(f"Handling request for weather: {unit}, {coords}")
+            current = self.weather_api.get_current_weather_for_coordinates(
+                unit, coords['lat'], coords['lng'])
             condition = WeatherCondition(current["weather"][0])
             img_code = condition.image.replace("images/", "icons/")
             current_weather = round(current["main"]["feels_like"])
