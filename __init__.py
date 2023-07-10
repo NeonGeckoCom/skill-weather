@@ -50,22 +50,22 @@ city name provided in the request.
 
 from datetime import datetime
 from pathlib import Path
-from time import sleep, time
+from threading import Event
+from time import time
 from typing import List, Tuple, Optional
 
 from requests import HTTPError
-from mycroft_bus_client import Message
+from ovos_bus_client.message import Message
 from ovos_utils import classproperty
 from ovos_utils.log import LOG
 from ovos_utils.process_utils import RuntimeRequirements
 from neon_utils.skills.neon_skill import NeonSkill
 from neon_utils.signal_utils import wait_for_signal_clear
 from neon_utils.user_utils import get_user_prefs
+from lingua_franca.parse import extract_number
 
 from mycroft.skills import intent_handler, skill_api_method
 from mycroft.skills.intent_services.adapt_service import AdaptIntent
-from mycroft.messagebus.message import Message
-from mycroft.util.parse import extract_number
 
 from .skill import (
     CurrentDialog,
@@ -718,34 +718,37 @@ class WeatherSkill(NeonSkill):
         weather = self._get_weather(intent_data)
         weather_config = self._get_weather_config(message)
         if weather is not None:
-            weather_location = self._build_display_location(intent_data, weather_config)
+            weather_location = self._build_display_location(intent_data,
+                                                            weather_config)
             self._display_current_conditions(weather, weather_location)
             gui_start = time()
+            gui_waiter = Event()
             dialog = CurrentDialog(intent_data, weather_config, weather.current)
             dialog.build_weather_dialog()
             wait_for_signal_clear('isSpeaking')
             self._speak_weather(dialog)
+            # TODO: Refactor out `self.platform` checks
             if self.gui.connected and self.platform != MARK_II:
                 # Make sure the GUI page is shown for at least 10 seconds
-                while time() - gui_start < 10:
-                    sleep(1)
+                gui_waiter.wait(10 - (time() - gui_start))
                 wait_for_signal_clear('isSpeaking')
                 self._display_more_current_conditions(weather, weather_location)
-            dialog = CurrentDialog(intent_data, weather_config, weather.current)
+            # dialog = CurrentDialog(intent_data, weather_config, weather.current)
             dialog.build_high_low_temperature_dialog()
             self._speak_weather(dialog)
             if self.gui.connected:
                 # Make sure the GUI page is shown for at least 10 seconds
-                while time() - gui_start < 10:
-                    sleep(1)
+                gui_waiter.wait(10 - (time() - gui_start))
                 wait_for_signal_clear('isSpeaking')
                 if self.platform == MARK_II:
-                    self._display_more_current_conditions(weather, weather_location)
-                    sleep(10)
+                    self._display_more_current_conditions(weather,
+                                                          weather_location)
+                    gui_waiter.wait(10)
                     self._display_hourly_forecast(weather, weather_location)
                 else:
                     four_day_forecast = weather.daily[1:5]
-                    self._display_multi_day_forecast(four_day_forecast, intent_data)
+                    self._display_multi_day_forecast(four_day_forecast,
+                                                     intent_data)
 
     def _display_current_conditions(
         self, weather: WeatherReport, weather_location: str
@@ -1059,10 +1062,11 @@ class WeatherSkill(NeonSkill):
             )
         self.gui.clear()
         self.gui["dailyForecast"] = dict(days=daily_forecast[:4])
-        self.gui["weatherLocation"] = self._build_display_location(intent_data, WeatherConfig())
+        self.gui["weatherLocation"] = \
+            self._build_display_location(intent_data, WeatherConfig())
         self.gui.show_page(page_name)
         if len(forecast) > 4:
-            sleep(15)
+            Event().wait(15)
             self.gui.clear()
             self.gui["dailyForecast"] = dict(days=daily_forecast[4:])
             self.gui.show_page(page_name)
