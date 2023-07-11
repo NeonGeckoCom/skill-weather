@@ -1287,7 +1287,7 @@ class WeatherSkill(NeonSkill):
             current_weather = round(current["main"]["temp"])
             result = {"weather_code": img_code, "weather_temp": current_weather}
             if msg:
-                LOG.debug("Emitting weather response")
+                LOG.debug(f"Emitting weather response: {result}")
                 self.bus.emit(msg.reply(
                     "skill-ovos-weather.openvoiceos.weather.response",
                     data={"report": result}))
