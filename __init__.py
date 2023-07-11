@@ -733,7 +733,7 @@ class WeatherSkill(NeonSkill):
                 gui_waiter.wait(10 - (time() - gui_start))
                 wait_for_signal_clear('isSpeaking')
                 self._display_more_current_conditions(weather, weather_location)
-            # dialog = CurrentDialog(intent_data, weather_config, weather.current)
+            dialog = CurrentDialog(intent_data, weather_config, weather.current)
             dialog.build_high_low_temperature_dialog()
             self._speak_weather(dialog)
             if self.gui.connected:
