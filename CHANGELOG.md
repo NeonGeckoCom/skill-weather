@@ -1,29 +1,20 @@
 # Changelog
 
-## [0.1.1a4](https://github.com/NeonGeckoCom/skill-weather/tree/0.1.1a4) (2023-06-28)
+## [1.0.1a2](https://github.com/NeonGeckoCom/skill-weather/tree/1.0.1a2) (2023-07-12)
 
-[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/0.1.1a3...0.1.1a4)
-
-**Merged pull requests:**
-
-- Stable dependencies [\#42](https://github.com/NeonGeckoCom/skill-weather/pull/42) ([NeonDaniel](https://github.com/NeonDaniel))
-
-## [0.1.1a3](https://github.com/NeonGeckoCom/skill-weather/tree/0.1.1a3) (2023-06-20)
-
-[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/0.1.1a2...0.1.1a3)
+[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/1.0.1a1...1.0.1a2)
 
 **Merged pull requests:**
 
-- Update homescreen weather [\#41](https://github.com/NeonGeckoCom/skill-weather/pull/41) ([NeonDaniel](https://github.com/NeonDaniel))
+- Fix dialog error [\#45](https://github.com/NeonGeckoCom/skill-weather/pull/45) ([NeonDaniel](https://github.com/NeonDaniel))
 
-## [0.1.1a2](https://github.com/NeonGeckoCom/skill-weather/tree/0.1.1a2) (2023-06-15)
+## [1.0.1a1](https://github.com/NeonGeckoCom/skill-weather/tree/1.0.1a1) (2023-07-10)
 
-[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/0.1.0...0.1.1a2)
+[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/1.0.0...1.0.1a1)
 
 **Merged pull requests:**
 
-- Update GH automation to best practices [\#40](https://github.com/NeonGeckoCom/skill-weather/pull/40) ([NeonDaniel](https://github.com/NeonDaniel))
-- Update to resolve warnings [\#38](https://github.com/NeonGeckoCom/skill-weather/pull/38) ([NeonDaniel](https://github.com/NeonDaniel))
+- Refactor all `sleep` references to `Event.wait` [\#44](https://github.com/NeonGeckoCom/skill-weather/pull/44) ([NeonDaniel](https://github.com/NeonDaniel))
 
 
 
