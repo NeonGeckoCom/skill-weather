@@ -2,4 +2,4 @@ multi-key-dict==2.0.3
 requests>=2.13.0
 neon-utils~=1.0
 neon-api-proxy~=0.4
-ovos_utils~=0.0.28
+ovos_utils~=0.0, >=0.0.28
