@@ -143,11 +143,9 @@ class OpenWeatherMapApi:
         if not self.lang == lang:
             self.lang = lang
             # self.set_language_parameter(lang)
-        kwargs = {"api_key": self.api_key,
-                  "language": owm_language(lang)} if self.api_key else \
-            {"language": lang}
-        response = get_forecast(latitude, longitude,
-                                measurement_system.lower(), **kwargs)
-        local_weather = WeatherReport(response)
+        request_data = {"api": "onecall", "lat": latitude, "lon": longitude, "unit": measurement_system,
+                        "lang_code": lang}
+        forecast = request_backend("proxy/weather", request_data)
+        local_weather = WeatherReport(forecast)
 
         return local_weather
