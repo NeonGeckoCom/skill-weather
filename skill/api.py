@@ -22,9 +22,9 @@ It also supports returning values in the measurement system (Metric/Imperial)
 provided, precluding us from having to do the conversions.
 
 """
+import logging
 
-from neon_api_proxy.client.open_weather_map import get_current_weather, \
-    get_forecast
+from neon_utils.hana_utils import request_backend
 
 from .weather import WeatherReport
 
@@ -105,8 +105,7 @@ def owm_language(lang: str):
 class OpenWeatherMapApi:
     """Use Open Weather Map's One Call API to retrieve weather information"""
 
-    def __init__(self, lang: str = "en", api_key: str = None):
-        self.api_key = api_key
+    def __init__(self, lang: str = "en"):
         self.lang = "en-us"
         self.language = lang or "en"
 
@@ -122,8 +121,11 @@ class OpenWeatherMapApi:
             lang: language requested
         """
         lang = lang or self.language
-        kwargs = {"api_key": self.api_key, "language": lang} if self.api_key else {"language": lang}
-        return get_current_weather(latitude, longitude, measurement_system.lower(), **kwargs)
+        request_data = {"api": "onecall", "lat": latitude, "lon": longitude, "unit": measurement_system,
+                        "lang_code": lang}
+        forecast = request_backend("proxy/weather", request_data)
+        formatted = {"main": forecast["current"], "weather": forecast["current"]["weather"]}
+        return formatted
 
     def get_weather_for_coordinates(
         self, measurement_system: str, latitude: float,

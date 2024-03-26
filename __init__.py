@@ -63,8 +63,8 @@ from neon_utils.skills.neon_skill import NeonSkill
 from neon_utils.signal_utils import wait_for_signal_clear
 from neon_utils.user_utils import get_user_prefs
 from lingua_franca.parse import extract_number
+from ovos_workshop.decorators import intent_handler, skill_api_method
 
-from mycroft.skills import intent_handler, skill_api_method
 from mycroft.skills.intent_services.adapt_service import AdaptIntent
 
 from .skill import (
@@ -127,7 +127,7 @@ class WeatherSkill(NeonSkill):
     @property
     def weather_api(self):
         if not self._weather_api:
-            self._weather_api = OpenWeatherMapApi(self.settings.get("api_key"))
+            self._weather_api = OpenWeatherMapApi()
         return self._weather_api
 
     def handle_get_local_forecast(self, message):
