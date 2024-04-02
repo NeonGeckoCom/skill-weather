@@ -1,20 +1,20 @@
 # Changelog
 
-## [1.0.1a2](https://github.com/NeonGeckoCom/skill-weather/tree/1.0.1a2) (2023-07-12)
+## [1.0.2a2](https://github.com/NeonGeckoCom/skill-weather/tree/1.0.2a2) (2024-03-26)
 
-[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/1.0.1a1...1.0.1a2)
-
-**Merged pull requests:**
-
-- Fix dialog error [\#45](https://github.com/NeonGeckoCom/skill-weather/pull/45) ([NeonDaniel](https://github.com/NeonDaniel))
-
-## [1.0.1a1](https://github.com/NeonGeckoCom/skill-weather/tree/1.0.1a1) (2023-07-10)
-
-[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/1.0.0...1.0.1a1)
+[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/1.0.2a1...1.0.2a2)
 
 **Merged pull requests:**
 
-- Refactor all `sleep` references to `Event.wait` [\#44](https://github.com/NeonGeckoCom/skill-weather/pull/44) ([NeonDaniel](https://github.com/NeonDaniel))
+- Refactor to use HANA endpoint for weather [\#51](https://github.com/NeonGeckoCom/skill-weather/pull/51) ([NeonDaniel](https://github.com/NeonDaniel))
+
+## [1.0.2a1](https://github.com/NeonGeckoCom/skill-weather/tree/1.0.2a1) (2024-02-05)
+
+[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/1.0.1...1.0.2a1)
+
+**Merged pull requests:**
+
+- Support ovos-utils 0.1 [\#50](https://github.com/NeonGeckoCom/skill-weather/pull/50) ([NeonDaniel](https://github.com/NeonDaniel))
 
 
 
