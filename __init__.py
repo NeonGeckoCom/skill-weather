@@ -164,7 +164,7 @@ class WeatherSkill(NeonSkill):
         self.bus.emit(event)
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleCurrentWeather")
         .optionally("query")
         .one_of("weather", "forecast")
         .optionally("location")
@@ -179,7 +179,7 @@ class WeatherSkill(NeonSkill):
         self._report_current_weather(message)
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleLikeOutside")
         .require("query")
         .require("like")
         .require("outside")
@@ -194,7 +194,7 @@ class WeatherSkill(NeonSkill):
         self._report_current_weather(message)
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleNumberDaysForecast")
         .optionally("query")
         .one_of("weather", "forecast")
         .require("number-days")
@@ -222,7 +222,7 @@ class WeatherSkill(NeonSkill):
         self._report_multi_day_forecast(message, days)
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleOneDayForecast")
         .optionally("query")
         .one_of("weather", "forecast")
         .require("relative-day")
@@ -241,7 +241,7 @@ class WeatherSkill(NeonSkill):
         self._report_one_day_forecast(message)
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleWeatherLater")
         .require("query")
         .require("weather")
         .require("later")
@@ -256,7 +256,7 @@ class WeatherSkill(NeonSkill):
         self._report_one_hour_weather(message)
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleWeatherAtTime")
         .optionally("query")
         .one_of("weather", "forecast")
         .require("relative-time")
@@ -272,7 +272,7 @@ class WeatherSkill(NeonSkill):
         self._report_one_hour_weather(message)
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleWeekendForecast")
         .require("query")
         .one_of("weather", "forecast")
         .require("weekend")
@@ -287,7 +287,7 @@ class WeatherSkill(NeonSkill):
         self._report_weekend_forecast(message)
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleWeekWeather")
         .optionally("query")
         .one_of("weather", "forecast")
         .require("week")
@@ -302,7 +302,7 @@ class WeatherSkill(NeonSkill):
         self._report_week_summary(message)
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleCurrentTemperature")
         .optionally("query")
         .require("temperature")
         .optionally("location")
@@ -323,7 +323,7 @@ class WeatherSkill(NeonSkill):
         self._report_temperature(message, temperature_type="current")
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleDailyTemperature")
         .optionally("query")
         .require("temperature")
         .require("relative-day")
@@ -341,7 +341,7 @@ class WeatherSkill(NeonSkill):
         self._report_temperature(message, temperature_type="current")
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleHourlyTemperature")
         .optionally("query")
         .require("temperature")
         .require("relative-time")
@@ -361,7 +361,7 @@ class WeatherSkill(NeonSkill):
         self._report_temperature(message)
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleHighTemperature")
         .optionally("query")
         .require("high")
         .optionally("temperature")
@@ -384,7 +384,7 @@ class WeatherSkill(NeonSkill):
         self._report_temperature(message, temperature_type="high")
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleLowTemperature")
         .optionally("query")
         .require("low")
         .optionally("temperature")
@@ -407,7 +407,7 @@ class WeatherSkill(NeonSkill):
         self._report_temperature(message, temperature_type="low")
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleIsItHot")
         .require("confirm-query-current")
         .one_of("hot", "cold")
         .optionally("location")
@@ -422,7 +422,7 @@ class WeatherSkill(NeonSkill):
         self._report_temperature(message, "current")
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleHowHotCold")
         .optionally("query")
         .one_of("hot", "cold")
         .require("confirm-query")
@@ -441,7 +441,7 @@ class WeatherSkill(NeonSkill):
         self._report_temperature(message, temperature_type)
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleIsItWindy")
         .require("confirm-query")
         .require("windy")
         .optionally("location")
@@ -456,7 +456,7 @@ class WeatherSkill(NeonSkill):
         self._report_wind(message)
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleHowWindy")
         .require("how")
         .require("windy")
         .optionally("confirm-query")
@@ -472,63 +472,29 @@ class WeatherSkill(NeonSkill):
         self._report_wind(message)
 
     @intent_handler(
-        AdaptIntent().require("confirm-query").require("snow").optionally("location")
+        IntentBuilder("HandleQueryCondition")
+        .require("confirm-query")
+        .one_of("snow", "clear", "clouds", "fog", "rain", "thunderstorm")
+        .optionally("location")
     )
-    def handle_is_it_snowing(self, message: Message):
+    def handle_query_condition(self, message: Message):
         """Handler for weather requests such as: is it snowing today?
 
         Args:
             message: Message Bus event information from the intent parser
         """
-        self._report_weather_condition(message, "snow")
-
-    @intent_handler(
-        AdaptIntent().require("confirm-query").require("clear").optionally("location")
-    )
-    def handle_is_it_clear(self, message: Message):
-        """Handler for weather requests such as: is the sky clear today?
-
-        Args:
-            message: Message Bus event information from the intent parser
-        """
-        self._report_weather_condition(message, condition="clear")
-
-    @intent_handler(
-        AdaptIntent()
-        .require("confirm-query")
-        .require("clouds")
-        .optionally("location")
-        .optionally("relative-time")
-    )
-    def handle_is_it_cloudy(self, message: Message):
-        """Handler for weather requests such as: is it cloudy today?
-
-        Args:
-            message: Message Bus event information from the intent parser
-        """
-        self._report_weather_condition(message, "clouds")
-
-    @intent_handler(
-        AdaptIntent().require("ConfirmQuery").require("Fog").optionally("location")
-    )
-    def handle_is_it_foggy(self, message: Message):
-        """Handler for weather requests such as: is it foggy today?
-
-        Args:
-            message: Message Bus event information from the intent parser
-        """
-        self._report_weather_condition(message, "fog")
-
-    @intent_handler(
-        AdaptIntent().require("ConfirmQuery").require("Rain").optionally("location")
-    )
-    def handle_is_it_raining(self, message: Message):
-        """Handler for weather requests such as: is it raining today?
-
-        Args:
-            message: Message Bus event information from the intent parser
-        """
-        self._report_weather_condition(message, "rain")
+        if "snow" in message.data:
+            self._report_weather_condition(message, "snow")
+        elif "clear" in message.data:
+            self._report_weather_condition(message, condition="clear")
+        elif "clouds" in message.data:
+            self._report_weather_condition(message, "clouds")
+        elif "fog" in message.data:
+            self._report_weather_condition(message, "fog")
+        elif "rain" in message.data:
+            self._report_weather_condition(message, "rain")
+        elif "thunderstorm" in message.data:
+            self._report_weather_condition(message, "thunderstorm")
 
     @intent_handler("do-i-need-an-umbrella.intent")
     def handle_need_umbrella(self, message: Message):
@@ -540,21 +506,7 @@ class WeatherSkill(NeonSkill):
         self._report_weather_condition(message, "rain")
 
     @intent_handler(
-        AdaptIntent()
-        .require("ConfirmQuery")
-        .require("Thunderstorm")
-        .optionally("Location")
-    )
-    def handle_is_it_storming(self, message: Message):
-        """Handler for weather requests such as:  is it storming today?
-
-        Args:
-            message: Message Bus event information from the intent parser
-        """
-        self._report_weather_condition(message, "thunderstorm")
-
-    @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleNextPrecipitation")
         .require("When")
         .optionally("Next")
         .require("Precipitation")
@@ -581,7 +533,7 @@ class WeatherSkill(NeonSkill):
             self._speak_weather(dialog)
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleHumidity")
         .require("Query")
         .require("Humidity")
         .optionally("RelativeDay")
@@ -609,19 +561,20 @@ class WeatherSkill(NeonSkill):
             self._speak_weather(dialog)
 
     @intent_handler(
-        AdaptIntent()
+        IntentBuilder("HandleSunriseSunset")
         .one_of("Query", "When")
         .optionally("Location")
-        .require("Sunrise")
+        .one_of("sunrise", "sunset")
         .optionally("Today")
         .optionally("RelativeDay")
     )
-    def handle_sunrise(self, message: Message):
+    def handle_sunrise_sunset(self, message: Message):
         """Handler for weather requests such as: when is the sunrise?
 
         Args:
             message: Message Bus event information from the intent parser
         """
+        sunrise = True if message.data.get("sunrise") else False
         intent_data = self._get_intent_data(message)
         weather = self._get_weather(intent_data)
         weather_config = self._get_weather_config(message)
@@ -629,33 +582,10 @@ class WeatherSkill(NeonSkill):
             intent_weather = weather.get_weather_for_intent(intent_data)
             dialog_args = intent_data, weather_config, intent_weather
             dialog = get_dialog_for_timeframe(intent_data.timeframe, dialog_args)
-            dialog.build_sunrise_dialog()
-            weather_location = self._build_display_location(intent_data, weather_config)
-            self._display_sunrise_sunset(intent_weather, weather_location)
-            self._speak_weather(dialog)
-
-    @intent_handler(
-        AdaptIntent()
-        .one_of("Query", "When")
-        .require("Sunset")
-        .optionally("Location")
-        .optionally("Today")
-        .optionally("RelativeDay")
-    )
-    def handle_sunset(self, message: Message):
-        """Handler for weather requests such as: when is the sunset?
-
-        Args:
-            message: Message Bus event information from the intent parser
-        """
-        intent_data = self._get_intent_data(message)
-        weather = self._get_weather(intent_data)
-        weather_config = self._get_weather_config(message)
-        if weather is not None:
-            intent_weather = weather.get_weather_for_intent(intent_data)
-            dialog_args = intent_data, weather_config, intent_weather
-            dialog = get_dialog_for_timeframe(intent_data.timeframe, dialog_args)
-            dialog.build_sunset_dialog()
+            if sunrise:
+                dialog.build_sunrise_dialog()
+            else:
+                dialog.build_sunset_dialog()
             weather_location = self._build_display_location(intent_data, weather_config)
             self._display_sunrise_sunset(intent_weather, weather_location)
             self._speak_weather(dialog)
