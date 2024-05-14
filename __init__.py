@@ -65,7 +65,7 @@ from neon_utils.user_utils import get_user_prefs
 from lingua_franca.parse import extract_number
 from ovos_workshop.decorators import intent_handler, skill_api_method
 
-from mycroft.skills.intent_services.adapt_service import AdaptIntent
+from adapt.intent import IntentBuilder
 
 from .skill import (
     CurrentDialog,
