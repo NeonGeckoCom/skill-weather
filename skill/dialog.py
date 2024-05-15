@@ -35,7 +35,6 @@ The skill class will use the "name" and "data" attributes to pass to the TTS pro
 from typing import List, Tuple
 from datetime import datetime
 from lingua_franca.format import join_list, nice_number, nice_time
-from ovos_config.locale import get_default_tz
 from ovos_utils import LOG
 
 from .config import WeatherConfig
@@ -156,7 +155,7 @@ class CurrentDialog(WeatherDialog):
         """Build the components necessary to speak the sunrise time."""
         if self.intent_data.location is None:
             LOG.warning(f"No location to determine timezone!")
-            now = datetime.now(get_default_tz())
+            now = datetime.now(tz=self.weather.date_time.tzinfo)
         else:
             now = datetime.now(tz=self.intent_data.geolocation["timezone"])
         if now < self.weather.sunrise:
@@ -170,7 +169,7 @@ class CurrentDialog(WeatherDialog):
         """Build the components necessary to speak the sunset time."""
         if self.intent_data.location is None:
             LOG.warning(f"No location to determine timezone!")
-            now = datetime.now(get_default_tz())
+            now = datetime.now(tz=self.weather.date_time.tzinfo)
         else:
             now = datetime.now(tz=self.intent_data.geolocation["timezone"])
         if now < self.weather.sunset:
