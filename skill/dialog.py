@@ -167,11 +167,7 @@ class CurrentDialog(WeatherDialog):
 
     def build_sunset_dialog(self):
         """Build the components necessary to speak the sunset time."""
-        if self.intent_data.location is None:
-            LOG.warning(f"No location to determine timezone!")
-            now = datetime.now(tz=self.weather.date_time.tzinfo)
-        else:
-            now = datetime.now(tz=self.intent_data.geolocation["timezone"])
+        now = datetime.now(tz=self.weather.date_time.tzinfo)
         if now < self.weather.sunset:
             self.name += "-sunset-future"
         else:
