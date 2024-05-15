@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """Parse the intent into data used by the weather skill."""
-from datetime import timedelta
 
 import pytz
-from mycroft.util.time import now_local
+from ovos_config.locale import get_default_tz
+from datetime import datetime, timedelta
 from neon_utils.location_utils import get_coordinates, get_location, get_timezone
 
 from .util import (
@@ -114,9 +114,9 @@ class WeatherIntent:
         """
         if self._location_datetime is None:
             if self.location is None:
-                self._location_datetime = now_local()
+                self._location_datetime = datetime.now(get_default_tz())
             else:
                 tz_info = get_tz_info(self.geolocation["timezone"])
-                self._location_datetime = now_local(tz_info)
+                self._location_datetime = datetime.now(tz_info)
 
         return self._location_datetime
