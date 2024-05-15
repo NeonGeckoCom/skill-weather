@@ -249,6 +249,7 @@ class WeatherReport:
             LOG.error(report)
             raise Exception(report.get('content'))
         timezone = report["timezone"]
+        LOG.info(f"Weather report for timezone: {timezone}")
         self.current = CurrentWeather(report["current"], timezone)
         self.hourly = [HourlyWeather(hour, timezone) for hour in report.get("hourly", list())]
         self.daily = [DailyWeather(day, timezone) for day in report.get("daily", list())]
