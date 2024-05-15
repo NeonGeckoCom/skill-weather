@@ -12,15 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """Utility functions for the weather skill."""
-from datetime import datetime, timedelta, tzinfo
-from time import time
 
 import pytz
 
-from mycroft.api import GeolocationApi
-from mycroft.util.format import nice_date
-from mycroft.util.parse import extract_datetime
-from mycroft.util.time import now_local
+from datetime import datetime, timedelta, tzinfo
+from time import time
+from ovos_backend_client.api import GeolocationApi
+from lingua_franca.format import nice_date
+from lingua_franca.parse import extract_datetime
+from ovos_config.locale import get_default_tz
+
 
 
 class LocationNotFoundError(ValueError):
@@ -141,7 +142,8 @@ def get_speakable_day_of_week(date_to_speak: datetime):
     Returns:
         The day of the week in the device's configured language
     """
-    now = now_local()
+    tz = date_to_speak.tzinfo or get_default_tz()
+    now = datetime.now(tz)
     tomorrow = now.date() + timedelta(days=1)
 
     # A little hack to prevent nice_date() from returning "tomorrow"

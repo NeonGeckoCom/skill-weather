@@ -129,7 +129,7 @@ class OpenWeatherMapApi:
 
     def get_weather_for_coordinates(
         self, measurement_system: str, latitude: float,
-        longitude: float, lang: str
+        longitude: float, lang: str, timezone: str
     ) -> WeatherReport:
         """Issue an API call and map the return value into a weather report
 
@@ -138,6 +138,7 @@ class OpenWeatherMapApi:
             latitude: the geologic latitude of the weather location
             longitude: the geologic longitude of the weather location
             lang: language requested
+            timezone: timezone to use for returned WeatherReport
         """
         lang = lang or self.language
         if not self.lang == lang:
@@ -146,6 +147,7 @@ class OpenWeatherMapApi:
         request_data = {"api": "onecall", "lat": latitude, "lon": longitude, "unit": measurement_system,
                         "lang_code": lang}
         forecast = request_backend("proxy/weather", request_data)
+        forecast["timezone"] = timezone
         local_weather = WeatherReport(forecast)
 
         return local_weather

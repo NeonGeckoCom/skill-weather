@@ -54,6 +54,7 @@ from threading import Event
 from time import time
 from typing import List, Tuple, Optional
 
+from neon_utils.location_utils import get_timezone
 from requests import HTTPError
 from ovos_bus_client.message import Message
 from ovos_utils import classproperty
@@ -138,10 +139,12 @@ class WeatherSkill(NeonSkill):
         to get it.
         """
         system_unit = self.config_core.get("system_unit")
+        timezone = get_user_prefs(message)["location"]["timezone"]
         try:
             weather = self.weather_api.get_weather_for_coordinates(
                 system_unit, self._get_weather_config(message).latitude,
-                self._get_weather_config(message).longitude, self.lang
+                self._get_weather_config(message).longitude, self.lang,
+                timezone
             )
         except Exception:
             self.log.exception("Unexpected error getting weather.")
@@ -1134,8 +1137,9 @@ class WeatherSkill(NeonSkill):
             try:
                 unit = get_user_prefs()['units']['measure']
                 latitude, longitude = self._determine_weather_location(intent_data)
+                timezone, _ = get_timezone(latitude, longitude)
                 weather = self.weather_api.get_weather_for_coordinates(
-                    unit, latitude, longitude, self.lang
+                    unit, latitude, longitude, self.lang, timezone
                 )
             except HTTPError as api_error:
                 self.log.exception("Weather API failure")
