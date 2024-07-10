@@ -12,10 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """Representations and conversions of the data returned by the weather API."""
-from datetime import timedelta
+
+import pytz
+
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import List
-from neon_utils.logger import LOG
+from ovos_utils.log import LOG
 
 from .config import MILES_PER_HOUR
 from .util import convert_to_local_datetime
@@ -182,8 +185,9 @@ class CurrentWeather(Weather):
 
     def __init__(self, weather: dict, timezone: str):
         super().__init__(weather, timezone)
-        self.sunrise = convert_to_local_datetime(weather["sunrise"], timezone)
-        self.sunset = convert_to_local_datetime(weather["sunset"], timezone)
+        timezone = pytz.timezone(timezone)
+        self.sunrise = datetime.fromtimestamp(weather["sunrise"], tz=timezone)
+        self.sunset = datetime.fromtimestamp(weather["sunset"], tz=timezone)
         self.temperature = round(weather["temp"])
         self.visibility = weather["visibility"]
         self.low_temperature = None
@@ -249,6 +253,7 @@ class WeatherReport:
             LOG.error(report)
             raise Exception(report.get('content'))
         timezone = report["timezone"]
+        LOG.info(f"Weather report for timezone: {timezone}")
         self.current = CurrentWeather(report["current"], timezone)
         self.hourly = [HourlyWeather(hour, timezone) for hour in report.get("hourly", list())]
         self.daily = [DailyWeather(day, timezone) for day in report.get("daily", list())]

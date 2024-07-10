@@ -33,9 +33,10 @@ convention was applied to the dialog files:
 The skill class will use the "name" and "data" attributes to pass to the TTS process.
 """
 from typing import List, Tuple
+from datetime import datetime
+from lingua_franca.format import join_list, nice_number, nice_time
+from ovos_utils import LOG
 
-from mycroft.util.format import join_list, nice_number, nice_time
-from mycroft.util.time import now_local
 from .config import WeatherConfig
 from .intent import WeatherIntent
 from .util import get_speakable_day_of_week, get_time_period
@@ -47,6 +48,7 @@ from .weather import (
     HOURLY,
     HourlyWeather,
 )
+
 
 # TODO: MISSING DIALOGS
 #   - current.clear.alternative.local
@@ -152,9 +154,10 @@ class CurrentDialog(WeatherDialog):
     def build_sunrise_dialog(self):
         """Build the components necessary to speak the sunrise time."""
         if self.intent_data.location is None:
-            now = now_local()
+            LOG.warning(f"No location to determine timezone!")
+            now = datetime.now(tz=self.weather.date_time.tzinfo)
         else:
-            now = now_local(tz=self.intent_data.geolocation["timezone"])
+            now = datetime.now(tz=self.intent_data.geolocation["timezone"])
         if now < self.weather.sunrise:
             self.name += "-sunrise-future"
         else:
@@ -164,10 +167,7 @@ class CurrentDialog(WeatherDialog):
 
     def build_sunset_dialog(self):
         """Build the components necessary to speak the sunset time."""
-        if self.intent_data.location is None:
-            now = now_local()
-        else:
-            now = now_local(tz=self.intent_data.geolocation["timezone"])
+        now = datetime.now(tz=self.weather.date_time.tzinfo)
         if now < self.weather.sunset:
             self.name += "-sunset-future"
         else:
