@@ -683,6 +683,14 @@ class WeatherSkill(NeonSkill):
                     self._display_multi_day_forecast(four_day_forecast,
                                                      intent_data)
 
+            if intent_data.location is None:
+                # Local weather; update the homescreen
+                data = self._format_weather_api(weather.current.condition,
+                                                weather.current.temperature)
+                self.bus.emit(message.reply(
+                    "skill-ovos-weather.openvoiceos.weather.response",
+                    data={"report": data}))
+
     def _display_current_conditions(
         self, weather: WeatherReport, weather_location: str
     ):
@@ -1217,9 +1225,8 @@ class WeatherSkill(NeonSkill):
             current = self.weather_api.get_current_weather_for_coordinates(
                 unit, coords['lat'], coords['lng'])
             condition = WeatherCondition(current["weather"][0])
-            img_code = condition.image.replace("images/", "icons/")
-            current_weather = round(current["main"]["temp"])
-            result = {"weather_code": img_code, "weather_temp": current_weather}
+            result = self._format_weather_api(condition, current["main"]["temp"])
+
             if msg:
                 LOG.debug(f"Emitting weather response: {result}")
                 self.bus.emit(msg.reply(
@@ -1229,3 +1236,8 @@ class WeatherSkill(NeonSkill):
         except Exception as e:
             LOG.error(e)
             return {}
+
+    def _format_weather_api(self, condition: WeatherCondition, temperature: float):
+        img_code = condition.image.replace("images/", "icons/")
+        current_weather = round(temperature)
+        return {"weather_code": img_code, "weather_temp": current_weather}
