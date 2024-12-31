@@ -1,3 +1,4 @@
-Avec un maximum de {high_temperature} et un minimum de {low_temperature} degrés, à {location} il fait {condition} avec une température actuelle de {temperature} degrés.
-Actuellement il fait {condition} avec {temperature} degrés {temperature_unit} à {location}. La prévision annonce des températures comprises entre {high_temperature} et {low_temperature} degrés.
-Maintenant, nous avons {condition} et {temperature} degrés, pour un minimum de {low_temperature} degrés et un maximum de {high_temperature} degrés prévus à {location}.
+# auto translated from en-us to fr-fr
+En ce moment, il fait 0 et 1 degré en 2.
+{location} a {condition} et est actuellement à {temperature} degrés.
+Il y a actuellement 0 et 1 degrés de 2 à 3.
