@@ -1,2 +1,3 @@
-in {location} ist zu {percent} mit {precipitation} für {day} zu rechnen
-für {day} ist mit einer wahrscheinlichkeit von {percent} mit {precipitation} in {location} zu rechnen
+# auto translated from en-us to de-de
+Bei {location} besteht eine {percent} Chance auf {precipitation} bei {time}
+Die Vorhersage sieht eine {percent} Chance von {precipitation} in {location} bei {time} vor.

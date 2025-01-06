@@ -1,2 +1,4 @@
-die sonne ging heute in {location} um {time} unter
-in {location} war sonnenuntergang um {time}
+# auto translated from en-us to de-de
+die Sonne ist heute um {time} Uhr in {location} untergegangen
+in {location} ist die Sonne heute um {time} untergegangen
+Sonnenuntergang war bei {time} heute in {location}

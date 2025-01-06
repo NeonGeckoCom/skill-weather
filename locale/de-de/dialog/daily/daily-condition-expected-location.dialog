@@ -1,3 +1,3 @@
-# Bejahende Antwort auf Fragen wie "Wird es morgen in Paris schneien?"
-Ja, ich erwarte {condition} am {day} in {location}
-Ja, die Prognose ist {condition} am {day}in {location}
+# auto translated from en-us to de-de
+Ja, erwarten Sie {condition} in {location} {day}
+Ja, die Vorhersage sieht {condition} in {location} {day} vor.

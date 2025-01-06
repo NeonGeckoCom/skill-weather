@@ -1,2 +1,4 @@
-die sonne wird in {location} um {time} untergehen
-der sonnenuntergang in {location} ist heute um {time}
+# auto translated from en-us to de-de
+Der Sonnenuntergang wird heute um {time} in {location} stattfinden.
+in {location} wird die Sonne heute um {time} untergehen
+die Sonne geht heute um {time} in {location} unter

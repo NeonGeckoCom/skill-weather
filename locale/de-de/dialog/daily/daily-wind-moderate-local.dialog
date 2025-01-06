@@ -1,3 +1,4 @@
-Der Wind wird nicht so schlimm sein, etwa {speed} {speed_unit} {day}
-Die Vorhersage sagt {speed} {speed_unit} {day}, nicht zu schlecht
-Es könnte Wind bis zu {speed} {speed_unit} {day} geben
+# auto translated from en-us to de-de
+Die Vorhersage sagt einen mäßigen Wind aus der Richtung {direction} bei {speed} {speed_unit} {day} voraus.
+Sie können einen mäßigen Wind von etwa {speed} {speed_unit} {day} erwarten.
+Der Wind wird mäßig sein, etwa {speed} {speed_unit} aus der {direction} {day}

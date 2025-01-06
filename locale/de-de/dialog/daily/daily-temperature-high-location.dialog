@@ -1,2 +1,3 @@
-{day} werden maximal {temperature} Grad in {location} erwartet
-{day} werden in {location} Höchsttemperaturen von {temperature} Grad vorhergesagt
+# auto translated from en-us to de-de
+Es wird so hoch wie {temperature} Grad in {location} {day}
+{location} wird einen Höchstwert von {temperature} Grad haben {day}
