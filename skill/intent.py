@@ -82,7 +82,7 @@ class WeatherIntent:
                 self._geolocation = dict()
             else:
                 self._geolocation = self._get_location()
-                if self._geolocation["city"].lower() not in self.location.lower():
+                if not self._geolocation.get("city"):
                     raise LocationNotFoundError(self.location + " is not a city")
 
         return self._geolocation
