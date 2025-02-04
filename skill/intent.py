@@ -66,6 +66,7 @@ class WeatherIntent:
             LOG.info(f"Translating location names from `en` to `{self.language}`")
             self._location = self._translator.translate_dict(
                 self._location, self.language.split('-')[0], 'en')
+            LOG.info(f"location={self._location}")
 
         return self._location
 
