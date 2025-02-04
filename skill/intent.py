@@ -63,7 +63,8 @@ class WeatherIntent:
                           }
         # TODO: `get_location` should support non-English requests in the future
         if self.language.split('-')[0] != 'en':
-            LOG.info(f"Translating location names from `en` to `{self.language}`")
+            LOG.info(f"Translating location names from `en` to "
+                     f"`{self.language}`: {self._location}")
             self._location = self._translator.translate_dict(
                 self._location, self.language.split('-')[0], 'en')
             LOG.info(f"location={self._location}")
