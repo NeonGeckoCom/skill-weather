@@ -49,6 +49,7 @@ class WeatherIntent:
 
     def _get_location(self):
         lat, lng = get_coordinates({"city": self.location})
+        # TODO: `get_location` should support non-English requests in the future
         city, county, state, country = get_location(lat, lng)
         if not city and county:
             city = f'{county} county'
@@ -61,18 +62,17 @@ class WeatherIntent:
                           'latitude': lat,
                           'longitude': lng
                           }
-        # TODO: `get_location` should support non-English requests in the future
         if self.language.split('-')[0] != 'en':
             LOG.info(f"Translating location names from `en` to "
-                     f"`{self.language}`: {self._location}")
+                     f"`{self.language}`")
             self._location = self._translator.translate_dict(
                 self._location, self.language.split('-')[0], 'en')
-            LOG.info(f"location={self._location}")
 
             # TODO: Better patch than this
             if city == "Dusseldorf" and self.language.split('-')[0] == 'de':
                 self._location['city'] = 'Düsseldorf'
 
+        LOG.debug(f"location={self._location}")
         return self._location
 
     @property
