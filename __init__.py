@@ -103,6 +103,7 @@ class WeatherSkill(NeonSkill):
         self.platform = self.config_core.get("enclosure", {}).get("platform", "unknown")
         self.gui_image_directory = Path(self.root_dir).joinpath("ui")
         self.log = LOG
+        WeatherIntent._translator = self.translator
 
     @classproperty
     def runtime_requirements(self):

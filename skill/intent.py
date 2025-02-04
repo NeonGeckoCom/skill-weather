@@ -17,6 +17,7 @@ import pytz
 from ovos_config.locale import get_default_tz
 from datetime import datetime, timedelta
 from neon_utils.location_utils import get_coordinates, get_location, get_timezone
+from ovos_utils import LOG
 
 from .util import (
     get_utterance_datetime,
@@ -31,6 +32,7 @@ class WeatherIntent:
     _geolocation = None
     _intent_datetime = None
     _location_datetime = None
+    _translator = None
 
     def __init__(self, message, language):
         """Constructor
@@ -59,6 +61,12 @@ class WeatherIntent:
                           'latitude': lat,
                           'longitude': lng
                           }
+        # TODO: `get_location` should support non-English requests in the future
+        if self.language.split('-')[0] != 'en':
+            LOG.info(f"Translating location names from `en` to `{self.language}`")
+            self._location = self._translator.translate_dict(
+                self._location, self.language.split('-')[0], 'en')
+
         return self._location
 
     @property
