@@ -69,6 +69,10 @@ class WeatherIntent:
                 self._location, self.language.split('-')[0], 'en')
             LOG.info(f"location={self._location}")
 
+            # TODO: Better patch than this
+            if city == "Dusseldorf" and self.language.split('-') == 'de':
+                self._location['city'] = 'Düsseldorf'
+
         return self._location
 
     @property
