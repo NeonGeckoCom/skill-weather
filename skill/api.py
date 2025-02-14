@@ -25,6 +25,7 @@ provided, precluding us from having to do the conversions.
 import logging
 
 from neon_utils.hana_utils import request_backend
+from ovos_utils import LOG
 
 from .weather import WeatherReport
 
@@ -80,34 +81,17 @@ OPEN_WEATHER_MAP_LANGUAGES = (
 )
 
 
-def owm_language(lang: str):
-    """
-    OWM supports 31 languages, see https://openweathermap.org/current#multi
-
-    Convert Mycroft's language code to OpenWeatherMap's, if missing use english.
-
-    Args:
-        lang: The Mycroft language code.
-    """
-    special_cases = {"cs": "cz", "ko": "kr", "lv": "la"}
-    lang_primary, lang_subtag = lang.split('-')
-    if lang.replace('-', '_') in OPEN_WEATHER_MAP_LANGUAGES:
-        return lang.replace('-', '_')
-    if lang_primary in OPEN_WEATHER_MAP_LANGUAGES:
-        return lang_primary
-    if lang_subtag in OPEN_WEATHER_MAP_LANGUAGES:
-        return lang_subtag
-    if lang_primary in special_cases:
-        return special_cases[lang_primary]
-    return "en"
-
-
 class OpenWeatherMapApi:
     """Use Open Weather Map's One Call API to retrieve weather information"""
 
     def __init__(self, lang: str = "en"):
-        self.lang = "en-us"
         self.language = lang or "en"
+
+    @property
+    def lang(self):
+        from ovos_utils.log import log_deprecation
+        log_deprecation("`lang` is deprecated, use `language`", "4.0.0")
+        return self.language
 
     def get_current_weather_for_coordinates(
         self, measurement_system: str, latitude: float, longitude: float, lang: str = None
@@ -120,9 +104,11 @@ class OpenWeatherMapApi:
             longitude: the geologic longitude of the weather location
             lang: language requested
         """
+        LOG.info(f"Getting weather in lang={lang}")
         lang = lang or self.language
-        request_data = {"api": "onecall", "lat": latitude, "lon": longitude, "unit": measurement_system,
-                        "lang_code": lang}
+        request_data = {"api": "onecall",
+                        "lat": latitude, "lon": longitude,
+                        "unit": measurement_system, "lang_code": lang}
         forecast = request_backend("proxy/weather", request_data)
         formatted = {"main": forecast["current"], "weather": forecast["current"]["weather"]}
         return formatted
@@ -140,12 +126,11 @@ class OpenWeatherMapApi:
             lang: language requested
             timezone: timezone to use for returned WeatherReport
         """
+        LOG.info(f"Getting forecast in lang={lang}")
         lang = lang or self.language
-        if not self.lang == lang:
-            self.lang = lang
-            # self.set_language_parameter(lang)
-        request_data = {"api": "onecall", "lat": latitude, "lon": longitude, "unit": measurement_system,
-                        "lang_code": lang}
+        request_data = {"api": "onecall",
+                        "lat": latitude, "lon": longitude,
+                        "unit": measurement_system, "lang_code": lang}
         forecast = request_backend("proxy/weather", request_data)
         forecast["timezone"] = timezone
         local_weather = WeatherReport(forecast)
