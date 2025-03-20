@@ -1,0 +1,4 @@
+# auto translated from en-us to uk-ua
+Наразі це {condition} та {temperature} градуси {temperature_unit} та {location}.
+Наразі це {condition} та {temperature} градуси в {location}.
+{location} мав {condition} і наразі має {temperature} градуси.
