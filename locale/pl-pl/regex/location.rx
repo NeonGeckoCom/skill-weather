@@ -1,4 +1,1 @@
-.*\bat ?P<Location>\bfahrenheit\b *.+
-.*\bin ?P<Location>?!\bcelsius\b *.+
-.*\bat ?P<Location>?!\bcelsius\b *.+
-.*\bin ?P<Location>\bfahrenheit\b *.+
+.*\b(w|dla) (?P<Location>(?!\bcelsjusz\b|\bfahrenheit\b) *.+)
