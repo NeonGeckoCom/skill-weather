@@ -1,3 +1,3 @@
-# Informing that an the requested condition is not in the forecast
-In {location} wird {condition} für {day} vorhergesagt
-Für {day} wird {condition} in {location} erwartet
+# auto translated from en-us to de-de
+Nein, {day} die Prognose sieht {condition} in {location} vor
+Nein, in {location} wird {condition} erwartet {day}

@@ -1,3 +1,4 @@
-Es ist {speed} {speed_unit}, vielleicht ist es gut, heute drinnen zu bleiben
-Der Wind ist heute sehr stark, {speed} {speed_unit}
-Es ist heute sehr windig, {speed} {speed_unit}
+# auto translated from en-us to de-de
+Der Wind ist heute sehr stark aus der {direction}, {speed} {speed_unit}
+Momentan ist der Wind aus der {direction} bei {speed} {speed_unit}, vielleicht ist es gut, heute drinnen zu bleiben
+Heute ist es sehr windig, {speed} {speed_unit}

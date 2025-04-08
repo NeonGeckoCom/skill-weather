@@ -1,3 +1,4 @@
-Es sind aktuell {temperature} Grad {temperature_unit} in {location}. 
-Es sind aktuell {temperature} Grad in {location}.
-Aktuell haben wir {temperature} Grad in {location}.
+# auto translated from en-us to de-de
+Im Moment ist es {temperature} Grad in {location}.
+Es ist derzeit {temperature} Grad {temperature_unit} in {location}.
+Es hat momentan {temperature} Grad in {location}.

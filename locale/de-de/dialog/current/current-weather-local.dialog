@@ -1,2 +1,4 @@
-Es ist im Moment {condition} bei {temperature} Grad {temperature_unit}.
-Momentan {condition} bei {temperature} Grad.
+# auto translated from en-us to de-de
+Derzeit ist es {condition} und {temperature} Grad {temperature_unit}.
+Die Temperatur beträgt derzeit {condition} und {temperature} Grad.
+Im Moment sind es {condition} und {temperature} Grad.

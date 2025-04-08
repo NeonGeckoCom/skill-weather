@@ -1,2 +1,3 @@
-{day} wird es maximal {temperature} Grad werden
-{day} wird eine Höchsttemperatur von {temperature} Grad erreicht.
+# auto translated from en-us to de-de
+Bei {day} wird die Temperatur bis zu {temperature} Grad betragen.
+{day} wird sie so hoch wie {temperature} sein
