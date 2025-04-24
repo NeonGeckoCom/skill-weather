@@ -1,0 +1,121 @@
+en-us:
+  weather.intent:
+    - what is the weather
+    - how is the weather
+    - tell me the weather
+    - what's the weather like
+    - what is the weather in new york:
+      - location: new york
+    - how is the weather in london:
+      - location: london
+    - tell me the weather in paris:
+      - location: paris
+    - what's the weather like in tokyo:
+      - location: tokyo
+  weather.forecast.intent:
+    - what is the forecast
+    - what's the weather forecast
+    - tell me the forecast
+    - what is the forecast for tomorrow
+    - what's the weather forecast in berlin:
+      - location: berlin
+    - tell me the forecast for moscow:
+      - location: moscow
+  weather.temperature.intent:
+    - what is the temperature
+    - how hot is it
+    - how cold is it
+    - what's the temperature outside
+    - what is the temperature in rome:
+      - location: rome
+    - how hot is it in madrid:
+      - location: madrid
+
+uk-ua:
+  weather.intent:
+    - яка погода
+    - як погода
+    - скажи погоду
+    - яка погода зараз
+    - яка погода у києві:
+      - location: київ
+    - як погода у львові:
+      - location: львів
+    - скажи погоду у одесі:
+      - location: одеса
+    - яка погода зараз у харкові:
+      - location: харків
+  weather.forecast.intent:
+    - який прогноз
+    - який прогноз погоди
+    - скажи прогноз
+    - який прогноз на завтра
+    - який прогноз погоди у дніпрі:
+      - location: дніпро
+    - скажи прогноз для запоріжжя:
+      - location: запоріжжя
+  weather.temperature.intent:
+    - яка температура
+    - наскільки спекотно
+    - наскільки холодно
+    - яка температура на вулиці
+    - яка температура у чернівцях:
+      - location: чернівці
+    - наскільки спекотно у івано-франківську:
+      - location: івано-франківськ
+
+pl-pl:
+  weather.intent:
+    - jaka jest pogoda
+    - jak jest pogoda
+    - powiedz jaka jest pogoda
+    - jaka jest teraz pogoda
+    - jaka jest pogoda w warszawie:
+      - location: warszawa
+    - jak jest pogoda w krakowie:
+      - location: kraków
+    - powiedz jaka jest pogoda w poznaniu:
+      - location: poznan
+    - jaka jest teraz pogoda w gdańsku:
+      - location: gdańsk
+  weather.forecast.intent:
+    - jaka jest prognoza
+    - jaka jest prognoza pogody
+    - powiedz prognozę
+    - jaka jest prognoza na jutro
+    - jaka jest prognoza pogody w łodzi:
+      - location: łódź
+    - powiedz prognozę dla wrocławia:
+      - location: wrocław
+  weather.temperature.intent:
+    - jaka jest temperatura
+    - jak gorąco jest
+    - jak zimno jest
+    - jaka jest temperatura na zewnątrz
+    - jaka jest temperatura w katowicach:
+      - location: katowice
+    - jak gorąco jest w szczecinie:
+      - location: szczecin
+
+unmatched intents:
+  en-us:
+    - what is weather
+    - how is the movie
+    - tell me the time
+    - what's the date
+    - translate weather to ukrainian
+    - what is the forecast for thanksgiving
+  uk-ua:
+    - що таке погода
+    - як фільм
+    - скажи час
+    - яка дата
+    - переклади погоду на англійську
+    - який прогноз на День подяки
+  pl-pl:
+    - co to jest pogoda
+    - jak jest film
+    - powiedz godzinę
+    - jaka jest data
+    - przetłumacz pogodę na angielski
+    - jaka jest prognoza na święto dziękczynienia 
