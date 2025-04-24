@@ -1,5 +1,5 @@
 en-us:
-  weather.intent:
+  HandleCurrentWeather:
     - what is the weather
     - how is the weather
     - tell me the weather
@@ -97,25 +97,25 @@ pl-pl:
     - jak gorąco jest w szczecinie:
       - location: szczecin
 
-unmatched intents:
-  en-us:
-    - what is weather
-    - how is the movie
-    - tell me the time
-    - what's the date
-    - translate weather to ukrainian
-    - what is the forecast for thanksgiving
-  uk-ua:
-    - що таке погода
-    - як фільм
-    - скажи час
-    - яка дата
-    - переклади погоду на англійську
-    - який прогноз на День подяки
-  pl-pl:
-    - co to jest pogoda
-    - jak jest film
-    - powiedz godzinę
-    - jaka jest data
-    - przetłumacz pogodę na angielski
-    - jaka jest prognoza na święto dziękczynienia 
+# unmatched intents:
+#   en-us:
+#     - what is weather
+#     - how is the movie
+#     - tell me the time
+#     - what's the date
+#     - translate weather to ukrainian
+#     - what is the forecast for thanksgiving
+#   uk-ua:
+#     - що таке погода
+#     - як фільм
+#     - скажи час
+#     - яка дата
+#     - переклади погоду на англійську
+#     - який прогноз на День подяки
+#   pl-pl:
+#     - co to jest pogoda
+#     - jak jest film
+#     - powiedz godzinę
+#     - jaka jest data
+#     - przetłumacz pogodę na angielski
+#     - jaka jest prognoza na święto dziękczynienia 
