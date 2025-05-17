@@ -41,7 +41,6 @@ en-us:
       - location: tokyo
 
   HandleOneDayForecast:
-    - what is the forecast for tomorrow
     - what's the weather forecast for tomorrow
     - tell me the forecast for tomorrow
     - what is the forecast for tomorrow in new york:
