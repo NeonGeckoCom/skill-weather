@@ -1,5 +1,5 @@
 en-us:
-  handle_current_weather:
+  HandleCurrentWeather:
     - what is the weather
     - how is the weather
     - tell me the weather
@@ -27,7 +27,7 @@ en-us:
     - how hot is it in madrid:
       - location: madrid
 
-  handle_like_outside:
+  HandleLikeOutside:
     - what's it like outside
     - how is it outside
     - tell me how it is outside
@@ -40,7 +40,7 @@ en-us:
     - what's it like outside in tokyo:
       - location: tokyo
 
-  handle_one_day_forecast:
+  HandleOneDayForecast:
     - what is the forecast for tomorrow
     - what's the weather forecast for tomorrow
     - tell me the forecast for tomorrow
@@ -53,7 +53,7 @@ en-us:
     - what is the forecast for tomorrow in tokyo:
       - location: tokyo
 
-  handle_weather_later:
+  HandleWeatherLater:
     - what is the weather later
     - how is the weather later
     - tell me the weather later
@@ -67,7 +67,7 @@ en-us:
     - what's the weather like later in tokyo:
       - location: tokyo
 
-  handle_weather_at_time:
+  HandleWeatherAtTime:
     - what is the weather at 3 pm
     - how is the weather at 3 pm
     - tell me the weather at 3 pm
@@ -81,7 +81,7 @@ en-us:
     - what's the weather like at 3 pm in tokyo:
       - location: tokyo
 
-  handle_weekend_forecast:
+  HandleWeekendForecast:
     - what is the weather this weekend
     - how is the weather this weekend
     - tell me the weather this weekend
@@ -95,7 +95,7 @@ en-us:
     - what's the weather like this weekend in tokyo:
       - location: tokyo
 
-  handle_week_weather:
+  HandleWeekWeather:
     - what is the weather this week
     - how is the weather this week
     - tell me the weather this week
@@ -109,7 +109,7 @@ en-us:
     - what's the weather like this week in tokyo:
       - location: tokyo
 
-  handle_current_temperature:
+  HandleCurrentTemperature:
     - what is the temperature
     - how hot is it
     - how cold is it
@@ -119,7 +119,7 @@ en-us:
     - how hot is it in madrid:
       - location: madrid
 
-  handle_daily_temperature:
+  HandleDailyTemperature:
     - what is the temperature tomorrow
     - how hot is it tomorrow
     - how cold is it tomorrow
@@ -129,7 +129,7 @@ en-us:
     - how hot is it tomorrow in madrid:
       - location: madrid
 
-  handle_hourly_temperature:
+  HandleHourlyTemperature:
     - what is the temperature at 3 pm
     - how hot is it at 3 pm
     - how cold is it at 3 pm
@@ -139,7 +139,7 @@ en-us:
     - how hot is it at 3 pm in madrid:
       - location: madrid
 
-  handle_high_temperature:
+  HandleHighTemperature:
     - what is the high temperature
     - how hot is it going to be
     - what's the high temperature
@@ -148,7 +148,7 @@ en-us:
     - how hot is it going to be in madrid:
       - location: madrid
 
-  handle_low_temperature:
+  HandleLowTemperature:
     - what is the low temperature
     - how cold is it going to be
     - what's the low temperature
@@ -157,7 +157,7 @@ en-us:
     - how cold is it going to be in madrid:
       - location: madrid
 
-  handle_is_it_hot:
+  HandleIsItHot:
     - is it hot
     - is it cold
     - is it hot in rome:
@@ -165,7 +165,7 @@ en-us:
     - is it cold in madrid:
       - location: madrid
 
-  handle_how_hot_or_cold:
+  HandleHowHotCold:
     - how hot is it
     - how cold is it
     - how hot is it in rome:
@@ -173,21 +173,21 @@ en-us:
     - how cold is it in madrid:
       - location: madrid
 
-  handle_is_it_windy:
+  HandleIsItWindy:
     - is it windy
     - is it windy in rome:
       - location: rome
     - is it windy in madrid:
       - location: madrid
 
-  handle_windy:
+  HandleHowWindy:
     - how windy is it
     - how windy is it in rome:
       - location: rome
     - how windy is it in madrid:
       - location: madrid
 
-  handle_query_condition:
+  HandleQueryCondition:
     - is it snowing
     - is it clear
     - is it cloudy
@@ -207,28 +207,28 @@ en-us:
     - is it thundering in berlin:
       - location: berlin
 
-  handle_need_umbrella:
+  do-i-need-an-umbrella:
     - do i need an umbrella
     - do i need an umbrella in rome:
       - location: rome
     - do i need an umbrella in madrid:
       - location: madrid
 
-  handle_next_precipitation:
+  HandleNextPrecipitation:
     - when is the next precipitation
     - when is the next precipitation in rome:
       - location: rome
     - when is the next precipitation in madrid:
       - location: madrid
 
-  handle_humidity:
+  HandleHumidity:
     - what is the humidity
     - what is the humidity in rome:
       - location: rome
     - what is the humidity in madrid:
       - location: madrid
 
-  handle_sunrise_sunset:
+  HandleSunriseSunset:
     - when is the sunrise
     - when is the sunset
     - when is the sunrise in rome:
@@ -237,7 +237,7 @@ en-us:
       - location: madrid
 
 uk-ua:
-  handle_current_weather:
+  HandleCurrentWeather:
     - яка погода
     - як погода
     - скажи погоду
@@ -258,7 +258,8 @@ uk-ua:
       - location: дніпро
     - скажи прогноз для запоріжжя:
       - location: запоріжжя
-  handle_current_temperature:
+
+  HandleCurrentTemperature:
     - яка температура
     - наскільки спекотно
     - наскільки холодно
@@ -269,7 +270,7 @@ uk-ua:
       - location: івано-франківськ
 
 pl-pl:
-  handle_current_weather:
+  HandleCurrentWeather:
     - jaka jest pogoda
     - jak jest pogoda
     - powiedz jaka jest pogoda
@@ -282,7 +283,8 @@ pl-pl:
       - location: poznan
     - jaka jest teraz pogoda w gdańsku:
       - location: gdańsk
-  handle_current_temperature:
+
+  HandleCurrentTemperature:
     - jaka jest temperatura
     - jak gorąco jest
     - jak zimno jest
