@@ -15,7 +15,6 @@ en-us:
     - what is the forecast
     - what's the weather forecast
     - tell me the forecast
-    - what is the forecast for tomorrow
     - what's the weather forecast in berlin:
       - location: berlin
     - what is the temperature
@@ -43,6 +42,7 @@ en-us:
   HandleOneDayForecast:
     - what's the weather forecast for tomorrow
     - tell me the forecast for tomorrow
+    - what is the forecast for tomorrow
     - what is the forecast for tomorrow in new york:
       - location: new york
     - what's the weather forecast for tomorrow in london:
