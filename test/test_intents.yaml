@@ -6,17 +6,6 @@ en-us:
     - what's the weather like
     - what is the weather in new york:
         - location: new york
-    - how is the weather in london:
-        - location: london
-    - tell me the weather in paris:
-        - location: paris
-    - what's the weather like in tokyo:
-        - location: tokyo
-    - what is the forecast
-    - what's the weather forecast
-    - tell me the forecast
-    - what's the weather forecast in berlin:
-        - location: berlin
 
   HandleCurrentTemperature:
     - what is the temperature
@@ -24,13 +13,19 @@ en-us:
     - what is the temperature in rome:
         - location: rome
 
-  WeatherSkill.handle_how_hot_or_cold:
-    - how hot is it
-    - how cold is it
-    - how hot is it in rome:
-        - location: rome
-    - how cold is it in madrid:
-        - location: madrid
+uk-ua:
+  HandleCurrentWeather:
+    - яка погода
+    - яка зараз погода
+    - скажи погоду
+    - яка погода у києві:
+        - location: київ
+
+  HandleCurrentTemperature:
+    - яка температура
+    - яка температура на вулиці
+    - яка температура у львові:
+        - location: львів
 
   HandleLikeOutside:
     - what's it like outside
