@@ -24,7 +24,7 @@ en-us:
     - what is the temperature in rome:
         - location: rome
 
-  HandleHowHotCold:
+  handle_how_hot_or_cold:
     - how hot is it
     - how cold is it
     - how hot is it in rome:
