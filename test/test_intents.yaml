@@ -93,9 +93,9 @@ uk-ua:
     - наскільки холодно
     - яка температура на вулиці
     - яка температура у чернівцях:
-      - location: чернівці
+      - location: чернівцях
     - наскільки спекотно у івано-франківську:
-      - location: івано-франківськ
+      - location: івано-франківську
 
 pl-pl:
   HandleCurrentWeather:
@@ -104,24 +104,24 @@ pl-pl:
     - powiedz jaka jest pogoda
     - jaka jest teraz pogoda
     - jaka jest pogoda w warszawie:
-      - location: warszawa
+      - location: warszawie
     - jak jest pogoda w krakowie:
-      - location: kraków
+      - location: krakowie
     - powiedz jaka jest pogoda w poznaniu:
-      - location: poznan
+      - location: poznaniu
     - jaka jest teraz pogoda w gdańsku:
-      - location: gdańsk
+      - location: gdańsku
 
   HandleOneDayForecast:
     - jaka jest prognoza na jutro
     - powiedz prognozę na jutro
     - jaka jest prognoza pogody na jutro
     - jaka jest prognoza na jutro w warszawie:
-      - location: warszawa
+      - location: warszawie
     - jaka jest prognoza na jutro w krakowie:
-      - location: kraków
+      - location: krakowie
     - powiedz prognozę na jutro w poznaniu:
-      - location: poznan
+      - location: poznaniu
 
   HandleCurrentTemperature:
     - jaka jest temperatura
@@ -129,9 +129,9 @@ pl-pl:
     - jak zimno jest
     - jaka jest temperatura na zewnątrz
     - jaka jest temperatura w katowicach:
-      - location: katowice
+      - location: katowicach
     - jak gorąco jest w szczecinie:
-      - location: szczecin
+      - location: szczecinie
 
 # unmatched intents:
 #   en-us:
