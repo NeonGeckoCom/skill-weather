@@ -7,13 +7,7 @@ en-us:
     - what is the weather in new york:
         - location: new york
     - how is the weather in london
-    - what's it like outside in new york:
-        - location: new york
-    - how is it outside in london:
-        - location: london
-    - tell me how it is outside in paris:
-        - location: paris
-    - what's it like outside in tokyo:
+    - what's the weather like in tokyo:
         - location: tokyo
 
   HandleOneDayForecast:
@@ -55,6 +49,19 @@ en-us:
     - tell me the weather this weekend in paris:
         - location: paris
     - what's the weather like this weekend in tokyo:
+        - location: tokyo
+
+  HandleLikeOutside:
+    - what's it like outside
+    - how is it outside
+    - tell me how it is outside
+    - what's it like outside in new york:
+        - location: new york
+    - how is it outside in london:
+        - location: london
+    - tell me how it is outside in paris:
+        - location: paris
+    - what's it like outside in tokyo:
         - location: tokyo
 
 uk-ua:
