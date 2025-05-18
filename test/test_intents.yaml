@@ -55,12 +55,7 @@ en-us:
     - what's it like outside
     - what's it like outside in new york:
         - location: new york
-    - how is it outside in london:
-        - location: london
-    - tell me how it is outside in paris:
-        - location: paris
-    - what's it like outside in tokyo:
-        - location: tokyo
+
 
 uk-ua:
   HandleCurrentWeather:
