@@ -20,12 +20,16 @@ en-us:
 
   HandleCurrentTemperature:
     - what is the temperature
-    - how hot is it
-    - how cold is it
     - what's the temperature outside
     - what is the temperature in rome:
         - location: rome
-    - how hot is it in madrid:
+
+  HandleHowHotCold:
+    - how hot is it
+    - how cold is it
+    - how hot is it in rome:
+        - location: rome
+    - how cold is it in madrid:
         - location: madrid
 
   HandleLikeOutside:
