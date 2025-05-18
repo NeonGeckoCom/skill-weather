@@ -71,11 +71,21 @@ uk-ua:
     - який прогноз
     - який прогноз погоди
     - скажи прогноз
-    - який прогноз на завтра
     - який прогноз погоди у дніпрі:
       - location: дніпрі
     - скажи прогноз для запоріжжя:
       - location: запоріжжя
+
+  HandleOneDayForecast:
+    - який прогноз на завтра
+    - скажи прогноз на завтра
+    - який прогноз погоди на завтра
+    - який прогноз на завтра у києві:
+      - location: києві
+    - який прогноз на завтра у львові:
+      - location: львові
+    - який прогноз на завтра у харкові:
+      - location: харкові
 
   HandleCurrentTemperature:
     - яка температура
@@ -101,6 +111,17 @@ pl-pl:
       - location: poznan
     - jaka jest teraz pogoda w gdańsku:
       - location: gdańsk
+
+  HandleOneDayForecast:
+    - jaka jest prognoza na jutro
+    - powiedz prognozę na jutro
+    - jaka jest prognoza pogody na jutro
+    - jaka jest prognoza na jutro w warszawie:
+      - location: warszawa
+    - jaka jest prognoza na jutro w krakowie:
+      - location: kraków
+    - powiedz prognozę na jutro w poznaniu:
+      - location: poznan
 
   HandleCurrentTemperature:
     - jaka jest temperatura
