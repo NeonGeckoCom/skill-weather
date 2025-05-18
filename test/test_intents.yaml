@@ -5,26 +5,117 @@ en-us:
     - tell me the weather
     - what's the weather like
     - what is the weather in new york:
-      - location: new york
+        - location: new york
     - how is the weather in london:
-      - location: london
+        - location: london
     - tell me the weather in paris:
-      - location: paris
+        - location: paris
     - what's the weather like in tokyo:
-      - location: tokyo
+        - location: tokyo
     - what is the forecast
     - what's the weather forecast
     - tell me the forecast
     - what's the weather forecast in berlin:
-      - location: berlin
+        - location: berlin
+
+  HandleCurrentTemperature:
     - what is the temperature
     - how hot is it
     - how cold is it
     - what's the temperature outside
     - what is the temperature in rome:
-      - location: rome
+        - location: rome
     - how hot is it in madrid:
-      - location: madrid
+        - location: madrid
+
+  HandleLikeOutside:
+    - what's it like outside
+    - how is it outside
+    - tell me how it is outside
+    - what's it like outside in new york:
+        - location: new york
+    - how is it outside in london:
+        - location: london
+    - tell me how it is outside in paris:
+        - location: paris
+    - what's it like outside in tokyo:
+        - location: tokyo
+
+  HandleOneDayForecast:
+    - what's the weather forecast for tomorrow
+    - tell me the forecast for tomorrow
+    - what is the forecast for tomorrow
+    - what is the forecast for tomorrow in new york:
+        - location: new york
+    - what's the weather forecast for tomorrow in london:
+        - location: london
+    - tell me the forecast for tomorrow in paris:
+        - location: paris
+    - what is the forecast for tomorrow in tokyo:
+        - location: tokyo
+
+  HandleWeatherLater:
+    - what is the weather later
+    - how is the weather later
+    - tell me the weather later
+    - what's the weather like later
+    - what is the weather later in new york:
+        - location: new york
+    - how is the weather later in london:
+        - location: london
+    - tell me the weather later in paris:
+        - location: paris
+    - what's the weather like later in tokyo:
+        - location: tokyo
+
+  HandleWeekendForecast:
+    - what is the weather this weekend
+    - how is the weather this weekend
+    - tell me the weather this weekend
+    - what's the weather like this weekend
+    - what is the weather this weekend in new york:
+        - location: new york
+    - how is the weather this weekend in london:
+        - location: london
+    - tell me the weather this weekend in paris:
+        - location: paris
+    - what's the weather like this weekend in tokyo:
+        - location: tokyo
+
+  HandleWeekWeather:
+    - what is the weather this week
+    - how is the weather this week
+    - tell me the weather this week
+    - what's the weather like this week
+    - what is the weather this week in new york:
+        - location: new york
+    - how is the weather this week in london:
+        - location: london
+    - tell me the weather this week in paris:
+        - location: paris
+    - what's the weather like this week in tokyo:
+        - location: tokyo
+
+  HandleDailyTemperature:
+    - what is the temperature tomorrow
+    - how hot is it tomorrow
+    - how cold is it tomorrow
+    - what's the temperature tomorrow
+    - what is the temperature tomorrow in rome:
+        - location: rome
+    - how hot is it tomorrow in madrid:
+        - location: madrid
+
+  HandleHourlyTemperature:
+    - what is the temperature at 3 pm
+    - how hot is it at 3 pm
+    - how cold is it at 3 pm
+    - what's the temperature at 3 pm
+    - what is the temperature at 3 pm in rome:
+        - location: rome
+    - how hot is it at 3 pm in madrid:
+        - location: madrid
+
 
   HandleLikeOutside:
     - what's it like outside
