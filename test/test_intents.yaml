@@ -98,11 +98,11 @@ uk-ua:
     - яка температура у харкові:
       - location: харкові
       
-  HandleHowHotCold:
-    - наскільки спекотно
-    - наскільки холодно
+  HandleHowHotCold.intent:
     - наскільки спекотно зараз
     - наскільки холодно зараз
+    - наскільки спекотно сьогодні
+    - наскільки холодно сьогодні
     - наскільки спекотно у києві:
       - location: києві
     - наскільки холодно у львові:
@@ -141,11 +141,11 @@ pl-pl:
     - jaka jest temperatura w katowicach:
       - location: katowicach
 
-  HandleHowHotCold:
-    - jak gorąco jest
-    - jak zimno jest
-    - jak gorąco jest w szczecinie:
-      - location: szczecinie
+  HandleHowHotCold.intent:
+    - czy jest gorąco
+    - czy jest zimno
+    - czy jest gorąco w Szczecinie:
+      - location: Szczecinie
 
 # unmatched intents:
 #   en-us:
