@@ -93,7 +93,7 @@ setup(
     author_email='developers@neon.ai',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    package_dir={SKILL_PKG: ""},
+    package_dir={SKILL_PKG: BASE_PATH},
     packages=[SKILL_PKG, f"{SKILL_PKG}.skill"],
     package_data={SKILL_PKG: find_resource_files()},
     include_package_data=True,
