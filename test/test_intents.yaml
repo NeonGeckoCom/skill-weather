@@ -98,11 +98,6 @@ uk-ua:
     - яка температура у харкові:
       - location: харкові
       
-  HandleHowHotCold:
-    - наскільки спекотно буде сьогодні
-    - наскільки холодно буде сьогодні
-    - наскільки жарко буде завтра
-    - наскільки холодно буде завтра
 
 
 pl-pl:
@@ -137,11 +132,6 @@ pl-pl:
     - jaka jest temperatura w katowicach:
       - location: katowicach
 
-  HandleHowHotCold:
-    - czy będzie gorąco dzisiaj
-    - czy będzie zimno dzisiaj
-    - czy będzie upał jutro
-    - czy będzie chłodno jutro
 
 # unmatched intents:
 #   en-us:
