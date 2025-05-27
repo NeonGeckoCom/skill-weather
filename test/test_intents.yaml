@@ -101,12 +101,8 @@ uk-ua:
   HandleHowHotCold.intent:
     - наскільки спекотно зараз
     - наскільки холодно зараз
-    - наскільки спекотно сьогодні
-    - наскільки холодно сьогодні
-    - наскільки спекотно у києві:
-      - location: києві
-    - наскільки холодно у львові:
-      - location: львові
+    - наскільки жарко сьогодні
+    - наскільки прохолодно сьогодні
 
 
 pl-pl:
@@ -142,10 +138,10 @@ pl-pl:
       - location: katowicach
 
   HandleHowHotCold.intent:
-    - czy jest gorąco
-    - czy jest zimno
-    - czy jest gorąco w Szczecinie:
-      - location: Szczecinie
+    - czy będzie gorąco dzisiaj
+    - czy będzie zimno dzisiaj
+    - czy będzie upał jutro
+    - czy będzie chłodno jutro
 
 # unmatched intents:
 #   en-us:
