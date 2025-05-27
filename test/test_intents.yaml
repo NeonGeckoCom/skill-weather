@@ -97,6 +97,16 @@ uk-ua:
       - location: львові
     - яка температура у харкові:
       - location: харкові
+      
+  HandleHowHotCold:
+    - наскільки спекотно
+    - наскільки холодно
+    - наскільки спекотно зараз
+    - наскільки холодно зараз
+    - наскільки спекотно у києві:
+      - location: києві
+    - наскільки холодно у львові:
+      - location: львові
 
 
 pl-pl:
@@ -127,11 +137,13 @@ pl-pl:
 
   HandleCurrentTemperature:
     - jaka jest temperatura
-    - jak gorąco jest
-    - jak zimno jest
     - jaka jest temperatura na zewnątrz
     - jaka jest temperatura w katowicach:
       - location: katowicach
+
+  HandleHowHotCold:
+    - jak gorąco jest
+    - jak zimno jest
     - jak gorąco jest w szczecinie:
       - location: szczecinie
 
