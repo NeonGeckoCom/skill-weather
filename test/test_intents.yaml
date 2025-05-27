@@ -87,7 +87,7 @@ uk-ua:
     - який прогноз на завтра у харкові:
       - location: харкові
 
-  HandleHowHotCold:
+  HandleCurrentTemperature:
     - яка температура
     - яка температура зараз
     - яка температура на вулиці
