@@ -1,0 +1,4 @@
+# auto translated from en-us to uk-ua
+{day} це буде {condition}, з максимумом {high_temperature} і мінімумом {low_temperature} в {location}
+Прогноз {day} є {high_temperature} для максимуму і {low_temperature} для мінімуму в {location}
+{day}, {location} матимуть максимум {high_temperature} і мінімум {low_temperature}, а {condition}

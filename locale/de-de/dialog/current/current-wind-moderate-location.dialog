@@ -1,2 +1,3 @@
-Derzeit {speed} {speed_unit} in {location}, also etwas windig heute
-Es ist heute etwas windig in {location}, derzeit {speed} {speed_unit}
+# auto translated from en-us to de-de
+Derzeit weht ein mäßiger {speed} {speed_unit} aus {direction} in {location}
+Es ist ein bisschen windig in {location} heute, derzeit {speed} {speed_unit}

@@ -1,3 +1,6 @@
-{day} wird {condition} vorausgesagt, mit maximal {high_temperature} und minimal {low_temperature}
-{day} werden wir maximal {high_temperature} und minimal {low_temperature} Grad haben, {condition} wird erwartet
-Die Vorhersage {day} sieht ein Maximum von {high_temperature} und ein Minimum von {low_temperature}, {condition} ist vorausgesagt
+# auto translated from en-us to de-de
+Die Prognose {day} ist {condition} mit einem Hoch von {high_temperature} und einem Tief von {low_temperature}
+{day} wird es {condition} mit einem Hoch von {high_temperature} und einem Tief von {low_temperature}
+{day} ist der Höchstwert {high_temperature} und der Tiefstwert {low_temperature}, mit {condition}
+Erwarten Sie {condition}, mit einem Hoch von {high_temperature} und einem Tief von {low_temperature} {day}
+{day} erwarten {condition}, mit einem Hoch von {high_temperature} und einem Tief von {low_temperature}

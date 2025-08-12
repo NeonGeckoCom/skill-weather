@@ -1,3 +1,4 @@
-In {location}. wird ein Höchstwert von {temperature} Grad {temperature_unit} erwartet.
-In {location} ist mit {temperature} Grad zu rechnen.
-Heute wird die Temperatur in {location} bis zu {temperature} Grad erreichen.
+# auto translated from en-us to de-de
+Die Höchstwerte von {temperature} Grad {temperature_unit} werden in {location} erwartet.
+Heute wird die Temperatur {temperature} Grad in {location} erreichen.
+Die Höchstwerte von {temperature} Grad werden im {location} erwartet.

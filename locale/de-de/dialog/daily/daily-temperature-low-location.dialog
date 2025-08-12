@@ -1,2 +1,3 @@
-{day} wird eine Tiefsttemperatur von {temperature} Grad in {location} erreicht
-in {location} werden minimal {temperature} Grad erwartet
+# auto translated from en-us to de-de
+{day} wird es in {location} nur noch {temperature} Grad sein
+{day}, {location} wird so niedrig wie {temperature} Grad sein

@@ -1,2 +1,3 @@
-Es wird nicht sehr windig {day} in {location}
-In {location} wird es {day} keinen Wind geben
+# auto translated from en-us to de-de
+Es wird ein leichter Wind aus der {direction} in {location} {day} bei {speed} {speed_unit} herrschen.
+In {location} {day} wird es nicht sehr windig sein.

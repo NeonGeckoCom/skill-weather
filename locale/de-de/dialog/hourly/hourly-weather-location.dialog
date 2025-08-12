@@ -1,3 +1,5 @@
-in {location} wird in den nächsten Stunden {condition} und {temperature} Grad vorhergesagt
-Später gibt es {condition} in {location}, mit Temperaturen um die {temperature} Grad
-In {location} werden es ungefähr {temperature} Grad mit {condition}
+# auto translated from en-us to de-de
+{location} Wetter in den nächsten Stunden werden {condition} und {temperature} Grad sein
+{location} wird um {temperature} mit {condition} sein
+{location} wird etwa {temperature} Grad mit {condition} sein
+Später wird es {condition} in {location} sein, mit Temperaturen um {temperature}

@@ -1,2 +1,3 @@
-Es wird {speed} {speed_unit} in {location} {day} sein
-Der Wind in {location} wird so stark sein wie {speed} {speed_unit} {day}
+# auto translated from en-us to de-de
+Es wird ein starker Wind aus der {direction} von {speed} {speed_unit} in {location} {day} herrschen.
+Der Wind wird so stark sein wie {speed} {speed_unit} in {location} {day}

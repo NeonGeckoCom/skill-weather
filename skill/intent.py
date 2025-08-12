@@ -17,6 +17,7 @@ import pytz
 from ovos_config.locale import get_default_tz
 from datetime import datetime, timedelta
 from neon_utils.location_utils import get_coordinates, get_location, get_timezone
+from ovos_utils import LOG
 
 from .util import (
     get_utterance_datetime,
@@ -31,6 +32,7 @@ class WeatherIntent:
     _geolocation = None
     _intent_datetime = None
     _location_datetime = None
+    _translator = None
 
     def __init__(self, message, language):
         """Constructor
@@ -47,6 +49,7 @@ class WeatherIntent:
 
     def _get_location(self):
         lat, lng = get_coordinates({"city": self.location})
+        # TODO: `get_location` should support non-English requests in the future
         city, county, state, country = get_location(lat, lng)
         if not city and county:
             city = f'{county} county'
@@ -59,6 +62,17 @@ class WeatherIntent:
                           'latitude': lat,
                           'longitude': lng
                           }
+        if self.language.split('-')[0] != 'en':
+            LOG.info(f"Translating location names from `en` to "
+                     f"`{self.language}`")
+            self._location = self._translator.translate_dict(
+                self._location, self.language.split('-')[0], 'en')
+
+            # TODO: Better patch than this
+            if city == "Dusseldorf" and self.language.split('-')[0] == 'de':
+                self._location['city'] = 'Düsseldorf'
+
+        LOG.debug(f"location={self._location}")
         return self._location
 
     @property
@@ -74,7 +88,7 @@ class WeatherIntent:
                 self._geolocation = dict()
             else:
                 self._geolocation = self._get_location()
-                if self._geolocation["city"].lower() not in self.location.lower():
+                if not self._geolocation.get("city"):
                     raise LocationNotFoundError(self.location + " is not a city")
 
         return self._geolocation

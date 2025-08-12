@@ -1,6 +1,6 @@
 # NEON AI (TM) SOFTWARE, Software Development Kit & Application Framework
 # All trademark and other rights reserved by their respective owners
-# Copyright 2008-2022 Neongecko.com Inc.
+# Copyright 2008-2025 Neongecko.com Inc.
 # Contributors: Daniel McKnight, Guy Daniels, Elon Gasper, Richard Leeds,
 # Regina Bloomstine, Casimiro Ferreira, Andrii Pernatii, Kirill Hrymailo
 # BSD-3 License
@@ -66,7 +66,7 @@ from neon_utils.user_utils import get_user_prefs
 from lingua_franca.parse import extract_number
 from ovos_workshop.decorators import intent_handler, skill_api_method
 
-from adapt.intent import IntentBuilder
+from ovos_workshop.intents import IntentBuilder
 
 from .skill import (
     CurrentDialog,
@@ -103,6 +103,7 @@ class WeatherSkill(NeonSkill):
         self.platform = self.config_core.get("enclosure", {}).get("platform", "unknown")
         self.gui_image_directory = Path(self.root_dir).joinpath("ui")
         self.log = LOG
+        WeatherIntent._translator = self.translator
 
     @classproperty
     def runtime_requirements(self):
