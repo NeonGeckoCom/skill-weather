@@ -14,8 +14,6 @@ jobs:
     uses: neongeckocom/.github/.github/workflows/skill_test_intents.yml@master
     with:
       skill_entrypoint: skill-weather.neongeckocom
-      test_padatious: true
-      test_padacioso: false
   # skill_resource_tests:
   # uses: neongeckocom/.github/.github/workflows/skill_test_resources.yml@master
   # with:
