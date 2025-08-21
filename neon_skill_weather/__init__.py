@@ -1220,8 +1220,10 @@ class WeatherSkill(NeonSkill):
         Get the current weather conditions and forecast for a given location.
         """
         from neon_utils.location_utils import get_coordinates
+        from neon_utils.hana_utils import request_backend
         lat, lon = get_coordinates({"city": request.location})
-        condition = self.weather_api.get_current_weather_for_coordinates(
-            request.unit, lat, lon)
-        return WeatherResponse(**condition)
+        request_data = {"api": "onecall", "lat": lat, "lon": lon, "unit": request.unit,
+                        "lang_code": "en-us"}
+        forecast = request_backend("proxy/weather", request_data)
+        return WeatherResponse(**forecast)
 
