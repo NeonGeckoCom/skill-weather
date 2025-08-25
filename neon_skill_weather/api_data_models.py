@@ -71,7 +71,7 @@ class WeatherCondition(BaseModel):
 
 class DailyWeatherCondition(WeatherCondition):
     summary: str = Field(description="summary of the day's weather")
-    visibility: None = Field(default_value=None)  # Daily data does not include visibility
+    visibility: Optional[float] = Field(default_value=None)  # Daily data does not include visibility
     temp: Dict[str, float] = Field(
         description="temperature details for the day"
     )
