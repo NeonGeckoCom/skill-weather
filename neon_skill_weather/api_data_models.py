@@ -54,15 +54,17 @@ class WeatherCondition(BaseModel):
     description: str = Field(description="weather condition description")
     icon: str = Field(description="weather icon id")
     weather: List[Dict[str, Any]] = Field(
-        description="raw weather data from API", deprecated=True)
+        description="raw weather data from API", deprecated=True
+    )
 
-    @model_validator(mode='before')
+    @model_validator(mode="before")
     def validate_input(self, data: Dict[str, Any]) -> Dict[str, Any]:
-        weather_data = data.get('weather', [{}])[0]
-        data['weather_id'] = weather_data.get('id', -1)
-        data['condition'] = weather_data.get('main', 'Unknown')
-        data['description'] = weather_data.get('description', 'Unknown')
-        data['icon'] = weather_data.get('icon', '')
+        """Normalize weather data into a flat structure"""
+        weather_data = data.get("weather", [{}])[0]
+        data["weather_id"] = weather_data.get("id", -1)
+        data["condition"] = weather_data.get("main", "Unknown")
+        data["description"] = weather_data.get("description", "Unknown")
+        data["icon"] = weather_data.get("icon", "")
         return data
 
 
@@ -74,9 +76,14 @@ class MinutelyWeatherCondition(BaseModel):
     dt: int = Field(description="timestamp of the forecasted condition")
     precipitation: float = Field(description="precipitation in mm/h")
 
+
 class WeatherResponse(BaseModel):
     current: WeatherCondition = Field(description="Current weather data")
+    minutely: List[MinutelyWeatherCondition] = Field(
+        description="Minutely weather data"
+    )
     hourly: List[WeatherCondition] = Field(description="Hourly weather data")
-    daily: List[DailyWeatherCondition] = Field(description="Daily weather data")
+    daily: List[DailyWeatherCondition] = Field(
+        description="Daily weather data"
+    )
     # TODO: Shared with `neon-hana`; implement in `neon_data_models`
-
