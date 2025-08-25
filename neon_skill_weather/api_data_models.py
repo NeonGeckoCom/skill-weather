@@ -46,7 +46,7 @@ class WeatherCondition(BaseModel):
     dew_point: float = Field(description="dew point temperature")
     uvi: float = Field(description="UV index")
     clouds: int = Field(description="cloudiness percentage")
-    visibility: int = Field(description="visibility in meters")
+    visibility: Optional[int] = Field(description="visibility in meters")
     wind_speed: float = Field(description="wind speed in requested unit")
     wind_deg: int = Field(description="wind direction in degrees")
     weather_id: int = Field(description="weather condition description")
@@ -71,6 +71,7 @@ class WeatherCondition(BaseModel):
 
 class DailyWeatherCondition(WeatherCondition):
     summary: str = Field(description="summary of the day's weather")
+    visibility = None  # Daily data does not include visibility
     temp: Dict[str, float] = Field(
         description="temperature details for the day"
     )
