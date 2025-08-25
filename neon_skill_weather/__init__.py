@@ -1215,7 +1215,7 @@ class WeatherSkill(NeonSkill):
             return {}
 
     @skill_api_method
-    def get_weather(self, request: WeatherRequest) -> WeatherResponse:
+    def get_weather_forecast(self, request: WeatherRequest) -> WeatherResponse:
         """
         Get the current weather conditions and forecast for a given location.
         """
@@ -1226,4 +1226,12 @@ class WeatherSkill(NeonSkill):
                         "lang_code": "en-us"}
         forecast = request_backend("proxy/weather", request_data)
         return WeatherResponse(**forecast)
+
+    @skill_api_method
+    def get_current_weather(self, request: WeatherRequest) -> WeatherCondition:
+        """
+        Get the current weather conditions for a given location.
+        """
+        forecast = self.get_weather_forecast(request)
+        return forecast.current
 
