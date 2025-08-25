@@ -74,6 +74,7 @@ from neon_skill_weather.config import WeatherConfig
 from neon_skill_weather.intent import WeatherIntent
 from neon_skill_weather.util import LocationNotFoundError
 from neon_skill_weather.weather import DAILY, HOURLY, DailyWeather, WeatherCondition
+from neon_skill_weather.api_data_models import WeatherRequest, WeatherResponse
 
 MARK_II = "mycroft_mark_2"
 TWELVE_HOUR = "half"
@@ -1191,7 +1192,6 @@ class WeatherSkill(NeonSkill):
                              config['units'],
                              self.settings)
 
-    @skill_api_method
     def get_current_weather_homescreen(self, msg: Optional[Message] = None):
         try:
             config = self._get_weather_config(None)
@@ -1213,3 +1213,25 @@ class WeatherSkill(NeonSkill):
         except Exception as e:
             LOG.error(e)
             return {}
+
+    @skill_api_method
+    def get_weather_forecast(self, request: WeatherRequest) -> WeatherResponse:
+        """
+        Get the current weather conditions and forecast for a given location.
+        """
+        from neon_utils.location_utils import get_coordinates
+        from neon_utils.hana_utils import request_backend
+        lat, lon = get_coordinates({"city": request.location})
+        request_data = {"api": "onecall", "lat": lat, "lon": lon, "unit": request.unit,
+                        "lang_code": "en-us"}
+        forecast = request_backend("proxy/weather", request_data)
+        return WeatherResponse(**forecast)
+
+    @skill_api_method
+    def get_current_weather(self, request: WeatherRequest) -> WeatherCondition:
+        """
+        Get the current weather conditions for a given location.
+        """
+        forecast = self.get_weather_forecast(request)
+        return forecast.current
+
