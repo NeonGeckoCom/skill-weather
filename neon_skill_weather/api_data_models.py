@@ -26,7 +26,7 @@
 # NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE,  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-from typing import Literal, List, Dict, Any
+from typing import Literal, List, Dict, Any, Optional
 from pydantic import BaseModel, Field, model_validator
 
 
