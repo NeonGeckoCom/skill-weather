@@ -27,7 +27,7 @@
 # SOFTWARE,  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from typing import Literal, List, Dict, Any
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 class WeatherRequest(BaseModel):
@@ -37,13 +37,46 @@ class WeatherRequest(BaseModel):
     )
 
 
+class WeatherCondition(BaseModel):
+    dt: int = Field(description="timestamp of the forecasted condition")
+    temp: float = Field(description="temperature")
+    feels_like: float = Field(description="perceived temperature")
+    pressure: int = Field(description="atmospheric pressure in hPa")
+    humidity: int = Field(description="humidity percentage")
+    dew_point: float = Field(description="dew point temperature")
+    uvi: float = Field(description="UV index")
+    clouds: int = Field(description="cloudiness percentage")
+    visibility: int = Field(description="visibility in meters")
+    wind_speed: float = Field(description="wind speed in requested unit")
+    wind_deg: int = Field(description="wind direction in degrees")
+    weather_id: int = Field(description="weather condition description")
+    condition: str = Field(description="weather condition name")
+    description: str = Field(description="weather condition description")
+    icon: str = Field(description="weather icon id")
+    weather: List[Dict[str, Any]] = Field(
+        description="raw weather data from API", deprecated=True)
+
+    @model_validator(mode='before')
+    def validate_input(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        weather_data = data.get('weather', [{}])[0]
+        data['weather_id'] = weather_data.get('id', -1)
+        data['condition'] = weather_data.get('main', 'Unknown')
+        data['description'] = weather_data.get('description', 'Unknown')
+        data['icon'] = weather_data.get('icon', '')
+        return data
+
+
+class DailyWeatherCondition(WeatherCondition):
+    summary: str = Field(description="summary of the day's weather")
+
+
+class MinutelyWeatherCondition(BaseModel):
+    dt: int = Field(description="timestamp of the forecasted condition")
+    precipitation: float = Field(description="precipitation in mm/h")
+
 class WeatherResponse(BaseModel):
-    lat: float = Field(description="Latitude of the location")
-    lon: float = Field(description="Longitude of the location")
-    timezone: str = Field(description="Timezone of the location")
-    current: Dict[str, Any] = Field(description="Current weather data")
-    minutely: List[Dict[str, Any]] = Field(description="Minutely weather data")
-    hourly: List[Dict[str, Any]] = Field(description="Hourly weather data")
-    daily: List[Dict[str, Any]] = Field(description="Daily weather data")
-    # TODO: Determine and document schema for each weather dict
+    current: WeatherCondition = Field(description="Current weather data")
+    hourly: List[WeatherCondition] = Field(description="Hourly weather data")
+    daily: List[DailyWeatherCondition] = Field(description="Daily weather data")
     # TODO: Shared with `neon-hana`; implement in `neon_data_models`
+
