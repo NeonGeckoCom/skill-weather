@@ -71,11 +71,24 @@ class WeatherCondition(BaseModel):
 
 class DailyWeatherCondition(WeatherCondition):
     summary: str = Field(description="summary of the day's weather")
+    temp: Dict[str, float] = Field(
+        description="temperature details for the day"
+    )
+    feels_like: Dict[str, float] = Field(
+        description="perceived temperature details for the day"
+    )
 
 
 class MinutelyWeatherCondition(BaseModel):
     dt: int = Field(description="timestamp of the forecasted condition")
     precipitation: float = Field(description="precipitation in mm/h")
+
+
+class WeatherAlert(BaseModel):
+    event: str = Field(description="Name of the alert event")
+    start: int = Field(description="Start timestamp of the alert")
+    end: int = Field(description="End timestamp of the alert")
+    description: str = Field(description="Detailed description of the alert")
 
 
 class WeatherResponse(BaseModel):
@@ -86,5 +99,8 @@ class WeatherResponse(BaseModel):
     hourly: List[WeatherCondition] = Field(description="Hourly weather data")
     daily: List[DailyWeatherCondition] = Field(
         description="Daily weather data"
+    )
+    alerts: Optional[List[WeatherAlert]] = Field(
+        default=None, description="Weather alerts"
     )
     # TODO: Shared with `neon-hana`; implement in `neon_data_models`
