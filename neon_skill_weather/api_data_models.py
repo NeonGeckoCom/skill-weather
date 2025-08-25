@@ -58,7 +58,8 @@ class WeatherCondition(BaseModel):
     )
 
     @model_validator(mode="before")
-    def validate_input(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    @classmethod
+    def validate_input(cls, data: Dict[str, Any]) -> Dict[str, Any]:
         """Normalize weather data into a flat structure"""
         weather_data = data.get("weather", [{}])[0]
         data["weather_id"] = weather_data.get("id", -1)
