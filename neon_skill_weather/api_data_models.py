@@ -39,6 +39,7 @@ class WeatherRequest(BaseModel):
 
 class WeatherCondition(BaseModel):
     dt: int = Field(description="timestamp of the forecasted condition")
+    nice_time: str = Field(description="human-readable time")
     temp: float = Field(description="temperature")
     feels_like: float = Field(description="perceived temperature")
     pressure: int = Field(description="atmospheric pressure in hPa")
@@ -66,12 +67,21 @@ class WeatherCondition(BaseModel):
         data["condition"] = weather_data.get("main", "Unknown")
         data["description"] = weather_data.get("description", "Unknown")
         data["icon"] = weather_data.get("icon", "")
+        from datetime import datetime
+        from zoneinfo import ZoneInfo
+
+        nice_time = datetime.fromtimestamp(
+            data["dt"], tz=ZoneInfo(data["timezone"])
+        ).strftime("%a, %b %-d at %H:%M")
+        weather_data["nice_time"] = nice_time
         return data
 
 
 class DailyWeatherCondition(WeatherCondition):
     summary: str = Field(description="summary of the day's weather")
-    visibility: Optional[float] = Field(default=None)  # Daily data does not include visibility
+    visibility: Optional[float] = Field(
+        default=None
+    )  # Daily data does not include visibility
     temp: Dict[str, float] = Field(
         description="temperature details for the day"
     )
