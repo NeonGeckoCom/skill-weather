@@ -39,6 +39,7 @@ class WeatherRequest(BaseModel):
 
 class WeatherCondition(BaseModel):
     dt: int = Field(description="timestamp of the forecasted condition")
+    nice_time: Optional[str] = Field(default=None, description="human-readable time")
     temp: float = Field(description="temperature")
     feels_like: float = Field(description="perceived temperature")
     pressure: int = Field(description="atmospheric pressure in hPa")
@@ -71,7 +72,9 @@ class WeatherCondition(BaseModel):
 
 class DailyWeatherCondition(WeatherCondition):
     summary: str = Field(description="summary of the day's weather")
-    visibility: Optional[float] = Field(default=None)  # Daily data does not include visibility
+    visibility: Optional[float] = Field(
+        default=None
+    )  # Daily data does not include visibility
     temp: Dict[str, float] = Field(
         description="temperature details for the day"
     )
@@ -93,6 +96,7 @@ class WeatherAlert(BaseModel):
 
 
 class WeatherResponse(BaseModel):
+    timezone: str = Field(description="Timezone of the forecast location")
     current: WeatherCondition = Field(description="Current weather data")
     minutely: List[MinutelyWeatherCondition] = Field(
         description="Minutely weather data"
@@ -104,4 +108,25 @@ class WeatherResponse(BaseModel):
     alerts: Optional[List[WeatherAlert]] = Field(
         default=None, description="Weather alerts"
     )
+
+    @model_validator(mode="after")
+    def include_formatted_times(self) -> "WeatherResponse":
+        """Add human-readable time strings to weather conditions"""
+        from datetime import datetime
+        from zoneinfo import ZoneInfo
+
+        def _add_nice_time(condition: WeatherCondition) -> None:
+            nice_time = datetime.fromtimestamp(
+                condition.dt, tz=ZoneInfo(self.timezone)
+            ).strftime("%a, %b %-d at %H:%M")
+            condition.nice_time = nice_time
+
+        _add_nice_time(self.current)
+        for condition in self.hourly:
+            _add_nice_time(condition)
+        for condition in self.daily:
+            _add_nice_time(condition)
+        return self
+
+
     # TODO: Shared with `neon-hana`; implement in `neon_data_models`
