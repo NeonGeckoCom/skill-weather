@@ -47,7 +47,7 @@ class WeatherCondition(BaseModel):
     dew_point: float = Field(description="dew point temperature")
     uvi: float = Field(description="UV index")
     clouds: int = Field(description="cloudiness percentage")
-    visibility: Optional[int] = Field(description="visibility in meters")
+    visibility: Optional[int] = Field(default=None, description="visibility in meters")
     wind_speed: float = Field(description="wind speed in requested unit")
     wind_deg: int = Field(description="wind direction in degrees")
     weather_id: int = Field(description="weather condition description")
