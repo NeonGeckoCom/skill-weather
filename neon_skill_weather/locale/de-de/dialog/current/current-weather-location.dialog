@@ -1,0 +1,4 @@
+# auto translated from en-us to de-de
+{location} hat {condition} und ist derzeit {temperature} Grad.
+Im Moment sind es {condition} und {temperature} Grad in {location}.
+Derzeit ist es {condition} und {temperature} Grad {temperature_unit} in {location}.

@@ -1,64 +1,44 @@
 # Changelog
 
-## [3.0.1a7](https://github.com/NeonGeckoCom/skill-weather/tree/3.0.1a7) (2025-08-12)
+## [3.1.1a5](https://github.com/NeonGeckoCom/skill-weather/tree/3.1.1a5) (2026-06-26)
 
-[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/3.0.1a6...3.0.1a7)
-
-**Merged pull requests:**
-
-- Fix translation typo [\#70](https://github.com/NeonGeckoCom/skill-weather/pull/70) ([NeonDaniel](https://github.com/NeonDaniel))
-
-## [3.0.1a6](https://github.com/NeonGeckoCom/skill-weather/tree/3.0.1a6) (2025-05-27)
-
-[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/3.0.1a5...3.0.1a6)
+[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/3.1.1a4...3.1.1a5)
 
 **Merged pull requests:**
 
-- Intent tests [\#68](https://github.com/NeonGeckoCom/skill-weather/pull/68) ([NeonDmitry](https://github.com/NeonDmitry))
+- Update dependencies to stable versions [\#77](https://github.com/NeonGeckoCom/skill-weather/pull/77) ([NeonDaniel](https://github.com/NeonDaniel))
 
-## [3.0.1a5](https://github.com/NeonGeckoCom/skill-weather/tree/3.0.1a5) (2025-04-08)
+## [3.1.1a4](https://github.com/NeonGeckoCom/skill-weather/tree/3.1.1a4) (2026-03-13)
 
-[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/3.0.1a4...3.0.1a5)
-
-**Merged pull requests:**
-
-- German translation [\#67](https://github.com/NeonGeckoCom/skill-weather/pull/67) ([NeonDmitry](https://github.com/NeonDmitry))
-
-## [3.0.1a4](https://github.com/NeonGeckoCom/skill-weather/tree/3.0.1a4) (2025-03-20)
-
-[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/3.0.1a3...3.0.1a4)
+[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/3.1.1a3...3.1.1a4)
 
 **Merged pull requests:**
 
-- Ukrainian fix translation [\#66](https://github.com/NeonGeckoCom/skill-weather/pull/66) ([NeonDmitry](https://github.com/NeonDmitry))
+- Update visibility to handle default value of `None` [\#75](https://github.com/NeonGeckoCom/skill-weather/pull/75) ([NeonDaniel](https://github.com/NeonDaniel))
 
-## [3.0.1a3](https://github.com/NeonGeckoCom/skill-weather/tree/3.0.1a3) (2025-03-20)
+## [3.1.1a3](https://github.com/NeonGeckoCom/skill-weather/tree/3.1.1a3) (2025-09-11)
 
-[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/3.0.1a2...3.0.1a3)
-
-**Merged pull requests:**
-
-- Polish translation [\#65](https://github.com/NeonGeckoCom/skill-weather/pull/65) ([NeonDmitry](https://github.com/NeonDmitry))
-
-## [3.0.1a2](https://github.com/NeonGeckoCom/skill-weather/tree/3.0.1a2) (2025-03-11)
-
-[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/3.0.1a1...3.0.1a2)
-
-**Fixed bugs:**
-
-- \[BUG\] Weather conditions are always reported in English [\#61](https://github.com/NeonGeckoCom/skill-weather/issues/61)
+[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/3.1.1a2...3.1.1a3)
 
 **Merged pull requests:**
 
-- Update automation, gitignore, and license notices [\#63](https://github.com/NeonGeckoCom/skill-weather/pull/63) ([NeonDaniel](https://github.com/NeonDaniel))
+- Include formatted timestamps in API responses [\#74](https://github.com/NeonGeckoCom/skill-weather/pull/74) ([NeonDaniel](https://github.com/NeonDaniel))
 
-## [3.0.1a1](https://github.com/NeonGeckoCom/skill-weather/tree/3.0.1a1) (2025-01-27)
+## [3.1.1a2](https://github.com/NeonGeckoCom/skill-weather/tree/3.1.1a2) (2025-08-25)
 
-[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/3.0.0...3.0.1a1)
+[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/3.1.1a1...3.1.1a2)
 
 **Merged pull requests:**
 
-- Update `IntentBuilder` to import from `ovos_workshop` [\#59](https://github.com/NeonGeckoCom/skill-weather/pull/59) ([NeonDaniel](https://github.com/NeonDaniel))
+- Implement Skill API Method [\#73](https://github.com/NeonGeckoCom/skill-weather/pull/73) ([NeonDaniel](https://github.com/NeonDaniel))
+
+## [3.1.1a1](https://github.com/NeonGeckoCom/skill-weather/tree/3.1.1a1) (2025-08-21)
+
+[Full Changelog](https://github.com/NeonGeckoCom/skill-weather/compare/3.1.0...3.1.1a1)
+
+**Merged pull requests:**
+
+- Refactor into `neon_skill_weather` package [\#72](https://github.com/NeonGeckoCom/skill-weather/pull/72) ([NeonDaniel](https://github.com/NeonDaniel))
 
 
 
